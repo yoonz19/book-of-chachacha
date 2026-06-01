@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>북오브차차차 - 독서모임 아카이브</title>
+<meta name="description" content="2023년부터 이어온 독서모임 북오브차차차의 모임일지 아카이브">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/niceplugin/paperlogy-font@1.0.0/css/paperlogy.min.css">
+<style>
+  :root {
+    --dark: #0D0D13;
+    --dark2: #16161F;
+    --gold: #F4A261;
+    --warm-bg: #FAF9F6;
+    --text: #222;
+    --text2: #888;
+    --card: #FFFFFF;
+    --radius: 16px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', 'Noto Sans KR', -apple-system, sans-serif;
+    background: var(--warm-bg);
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--dark);
+    min-height: 480px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 80%, rgba(244,162,97,0.18) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(230,57,70,0.12) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(123,75,175,0.08) 0%, transparent 60%);
+  }
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 80px 32px;
+    max-width: 800px;
+  }
+  .hero-emoji {
+    font-size: 56px;
+    margin-bottom: 24px;
+    display: block;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(244,162,97,0.15);
+    border: 1px solid rgba(244,162,97,0.3);
+    border-radius: 50px;
+    padding: 6px 24px;
+    color: var(--gold);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .hero-title {
+    font-family: 'Paperlogy', 'Pretendard', sans-serif;
+    font-weight: 900;
+    font-size: 64px;
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    text-shadow: 0 4px 40px rgba(244,162,97,0.2);
+  }
+  .hero-sub {
+    font-size: 18px;
+    color: rgba(255,255,255,0.55);
+    font-weight: 400;
+    line-height: 1.7;
+  }
+
+  /* STATS */
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    padding: 48px 24px;
+    background: var(--dark2);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .stat-item {
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Paperlogy', sans-serif;
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--gold);
+    line-height: 1.2;
+  }
+  .stat-label {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+
+  /* MAIN CONTENT */
+  .main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 64px 24px 80px;
+  }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .section-title {
+    font-family: 'Paperlogy', sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    color: var(--text);
+  }
+  .section-sub {
+    font-size: 14px;
+    color: var(--text2);
+  }
+
+  /* YEAR DIVIDER */
+  .year-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 48px 0 32px;
+  }
+  .year-divider:first-of-type {
+    margin-top: 0;
+  }
+  .year-label {
+    font-family: 'Paperlogy', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+  .year-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, rgba(244,162,97,0.3), transparent);
+  }
+
+  /* BOOK GRID */
+  .book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 24px;
+  }
+
+  /* BOOK CARD */
+  .book-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
+  }
+  .book-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+  }
+  .book-card.has-journal {
+    cursor: pointer;
+  }
+  .book-card.has-journal::after {
+    content: 'READ';
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: var(--gold);
+    color: var(--dark);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 1.5px;
+    z-index: 2;
+    box-shadow: 0 2px 8px rgba(244,162,97,0.4);
+  }
+  a.book-card {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .book-cover {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    position: relative;
+  }
+  .book-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+  .book-card:hover .book-cover img {
+    transform: scale(1.05);
+  }
+
+  /* Placeholder for books without cover */
+  .book-cover-placeholder {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .book-cover-placeholder .num {
+    font-family: 'Paperlogy', sans-serif;
+    font-size: 64px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.15);
+    line-height: 1;
+  }
+  .book-cover-placeholder .icon {
+    font-size: 48px;
+    margin-bottom: 8px;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.2));
+  }
+
+  .book-info {
+    padding: 20px;
+  }
+  .book-session {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .book-title {
+    font-family: 'Paperlogy', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.3;
+    margin-bottom: 4px;
+    color: var(--text);
+  }
+  .book-author {
+    font-size: 14px;
+    color: var(--text2);
+    margin-bottom: 8px;
+  }
+  .book-date {
+    font-size: 12px;
+    color: #bbb;
+  }
+
+  /* PDF BANNER */
+  .pdf-banner {
+    background: linear-gradient(135deg, var(--dark) 0%, #1a1a2e 100%);
+    border-radius: var(--radius);
+    padding: 40px;
+    margin-bottom: 48px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    color: #fff;
+    text-decoration: none;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .pdf-banner:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+  }
+  .pdf-icon {
+    font-size: 48px;
+    flex-shrink: 0;
+  }
+  .pdf-text h3 {
+    font-family: 'Paperlogy', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+  .pdf-text p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+  }
+  .pdf-badge {
+    margin-left: auto;
+    background: rgba(244,162,97,0.15);
+    border: 1px solid rgba(244,162,97,0.3);
+    color: var(--gold);
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+
+  /* FOOTER */
+  .footer {
+    background: var(--dark);
+    padding: 48px 24px;
+    text-align: center;
+  }
+  .footer-logo {
+    font-family: 'Paperlogy', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 8px;
+  }
+  .footer-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.15);
+  }
+
+  /* GAP NOTICE */
+  .gap-notice {
+    background: rgba(244,162,97,0.06);
+    border: 1px dashed rgba(244,162,97,0.2);
+    border-radius: var(--radius);
+    padding: 24px 32px;
+    text-align: center;
+    color: var(--text2);
+    font-size: 14px;
+    margin-bottom: 32px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .hero-title { font-size: 40px; }
+    .hero-inner { padding: 60px 20px; }
+    .hero-emoji { font-size: 40px; }
+    .stats { gap: 24px; flex-wrap: wrap; }
+    .stat-num { font-size: 28px; }
+    .book-grid {
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+    }
+    .book-info { padding: 14px; }
+    .book-title { font-size: 15px; }
+    .pdf-banner {
+      flex-direction: column;
+      text-align: center;
+      padding: 28px;
+      gap: 16px;
+    }
+    .pdf-badge { margin-left: 0; }
+    .section-header { flex-direction: column; gap: 4px; }
+  }
+  @media (max-width: 480px) {
+    .hero-title { font-size: 32px; }
+    .book-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .book-cover-placeholder .num { font-size: 48px; }
+    .book-cover-placeholder .icon { font-size: 36px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-emoji">&#128218;</span>
+    <div class="hero-badge">BOOK CLUB ARCHIVE</div>
+    <h1 class="hero-title">북오브차차차</h1>
+    <p class="hero-sub">
+      2023년 2월부터 함께 읽고, 나누고, 기록하는<br>
+      우리의 독서 여정 아카이브
+    </p>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats">
+  <div class="stat-item">
+    <div class="stat-num">19</div>
+    <div class="stat-label">SESSIONS</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">19</div>
+    <div class="stat-label">BOOKS</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">4</div>
+    <div class="stat-label">YEARS</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">2023</div>
+    <div class="stat-label">SINCE</div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main class="main">
+
+  <div class="section-header">
+    <h2 class="section-title">모임일지 아카이브</h2>
+    <span class="section-sub">클릭하면 상세 일지를 볼 수 있어요</span>
+  </div>
+
+  <!-- PDF Banner -->
+  <a href="북오브차차차_모임일지_1-13.pdf" target="_blank" class="pdf-banner">
+    <span class="pdf-icon">&#128195;</span>
+    <div class="pdf-text">
+      <h3>모임일지 통합본 (1~13회)</h3>
+      <p>2023.02 ~ 2024.06 | 하얼빈부터 장미의 이름까지</p>
+    </div>
+    <span class="pdf-badge">PDF &#8599;</span>
+  </a>
+
+  <!-- 2023 -->
+  <div class="year-divider">
+    <span class="year-label">2023</span>
+    <div class="year-line"></div>
+  </div>
+
+  <div class="book-grid">
+
+    <!-- #01 -->
+    <div class="book-card">
+      <div class="book-cover">
+        <img src="images/01_하얼빈.jpg" alt="하얼빈 표지">
+      </div>
+      <div class="book-info">
+        <div class="book-session">#01</div>
+        <div class="book-title">하얼빈</div>
+        <div class="book-author">김훈</div>
+        <div class="book-date">2023.02.18</div>
+      </div>
+    </div>
+
+    <!-- #02 -->
+    <div class="book-card">
+      <div class="book-cover">
+        <img src="images/02_소크라테스익스프레스.jpg" alt="소크라테스 익스프레스 표지">
+      </div>
+      <div class="book-info">
+        <div class="book-session">#02</div>
+        <div class="book-title">소크라테스 익스프레스</div>
+        <div class="book-author">에릭 와이너</div>
+        <div class="book-date">2023.03.19</div>
+      </div>
+    </div>
+
+    <!-- #03 -->
+    <div class="book-card">
+      <div class="book-cover">
+        <img src="images/03_가재가노래하는곳.jpg" alt="가재가 노래하는 곳 표지">
+      </div>
+      <div class="book-info">
+        <div class="book-session">#03</div>
+        <div class="book-title">가재가 노래하는 곳</div>
+        <div class="book-author">델리아 오언스</div>
+        <div class="book-date">2023.05.13</div>
+      </div>
+    </div>
+
+    <!-- #04 -->
+    <div class="book-card">
+      <div class="book-cover">
+        <img src="images/04_고래.jpg" alt="고래 표지">
+      </div>
+      <div class="book-info">
+        <div class="book-session">#04</div>
+        <div class="book-title">고래</div>
+        <div class="book-author">천명관</div>
+        <div class="book-date">2023.06.11</div>
+      </div>
+    </div>
+
+    <!-- #05 -->
+    <div class="book-card">
+      <div class="book-cover">
+        <img src="images/05_킨.jpg" alt="킨 표지">
+      </div>
+      <div class="book-info">
+        <div class="book-session">#05</div>
+        <div class="book-title">킨</div>
+        <div class="book-author">옥타비아 버틀러</div>
+        <div class="book-date">2023.07.22</div>
+      </div>
+    </div>
+
+    <!-- #06 -->
+    <div class="book-card">
+      <div class="book-cover">
+        <img src="images/06_도파민네이션.jpg" alt="도파민네이션 표지">
+      </div>
+      <div class="book-info">
+        <div class="book-session">#06</div>
+        <div class="book-title">도파민네이션</div>
+        <div class="book-author">애나 렘키</div>
+        <div class="book-date">2023.08.19</div>
+      </div>
+    </div>
+
+    <!-- #07 -->
+    <div class="book-card">
+      <div class="book-cover">
+        <img src="images/07_단순한열정.jpg" alt="단순한 열정 표지">
+      </div>
+      <div class="book-info">
+        <div class="book-session">#07</div>
+        <div class="book-title">단순한 열정</div>
+        <div class="book-author">아니 에르노</div>
+        <div class="book-date">2023.09.23</div>
+      </div>
+    </div>
+
+    <!-- #08 -->
+    <div class="book-card">
+      <div class="book-cover">
+        <img src="images/08_걸인더미러.jpg" alt="걸 인 더 미러 표지">
+      </div>
+      <div class="book-info">
+        <div class="book-session">#08</div>
+        <div class="book-title">걸 인 더 미러</div>
+        <div class="book-author">로즈 칼라일</div>
+        <div class="book-date">2023.10.22</div>
+      </div>
+    </div>
+
+    <!-- #09 -->
+    <div class="book-card">
+      <div class="book-cover">
+        <img src="images/09_인구미래공존.jpg" alt="인구 미래 공존 표지">
+      </div>
+      <div class="book-info">
+        <div class="book-session">#09</div>
+        <div class="book-title">인구 미래 공존</div>
+        <div class="book-author">조영태</div>
+        <div class="book-date">2023.12.02</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 2024 -->
+  <div class="year-divider">
+    <span class="year-label">2024</span>
+    <div class="year-line"></div>
+  </div>
+
+  <div class="book-grid">
+
+    <!-- #10 -->
+    <div class="book-card">
+      <div class="book-cover">
+        <img src="images/10_도시와그불확실한벽.jpg" alt="도시와 그 불확실한 벽 표지">
+      </div>
+      <div class="book-info">
+        <div class="book-session">#10</div>
+        <div class="book-title">도시와 그 불확실한 벽</div>
+        <div class="book-author">무라카미 하루키</div>
+        <div class="book-date">2024.01.27</div>
+      </div>
+    </div>
+
+    <!-- #11 -->
+    <div class="book-card">
+      <div class="book-cover">
+        <img src="images/11_위대한개츠비.jpg" alt="위대한 개츠비 표지">
+      </div>
+      <div class="book-info">
+        <div class="book-session">#11</div>
+        <div class="book-title">위대한 개츠비</div>
+        <div class="book-author">스콧 피츠제럴드</div>
+        <div class="book-date">2024.02.25</div>
+      </div>
+    </div>
+
+    <!-- #12 -->
+    <div class="book-card">
+      <div class="book-cover">
+        <img src="images/12_슈독.jpg" alt="슈독 표지">
+      </div>
+      <div class="book-info">
+        <div class="book-session">#12</div>
+        <div class="book-title">슈독</div>
+        <div class="book-author">필 나이트</div>
+        <div class="book-date">2024.04.14</div>
+      </div>
+    </div>
+
+    <!-- #13 -->
+    <div class="book-card">
+      <div class="book-cover">
+        <img src="images/13_장미의이름.jpg" alt="장미의 이름 표지">
+      </div>
+      <div class="book-info">
+        <div class="book-session">#13</div>
+        <div class="book-title">장미의 이름</div>
+        <div class="book-author">움베르트 에코</div>
+        <div class="book-date">2024.06.15</div>
+      </div>
+    </div>
+
+    <!-- #14 -->
+    <div class="book-card">
+      <div class="book-cover">
+        <img src="images/14_작은땅위의야수들.jpg" alt="작은 땅 위의 야수들 표지">
+      </div>
+      <div class="book-info">
+        <div class="book-session">#14</div>
+        <div class="book-title">작은 땅 위의 야수들</div>
+        <div class="book-author">김주혜</div>
+        <div class="book-date">2024.07.20</div>
+      </div>
+    </div>
+
+    <!-- #15 -->
+    <div class="book-card">
+      <div class="book-cover">
+        <img src="images/15_메트로폴리탄경비원.jpg" alt="나는 메트로폴리탄 미술관의 경비원입니다 표지">
+      </div>
+      <div class="book-info">
+        <div class="book-session">#15</div>
+        <div class="book-title">나는 메트로폴리탄 미술관의 경비원입니다</div>
+        <div class="book-author">패트릭 브링리</div>
+        <div class="book-date">2024.08.25</div>
+      </div>
+    </div>
+
+    <!-- #16 -->
+    <div class="book-card">
+      <div class="book-cover">
+        <img src="images/16_돈의심리학.jpg" alt="돈의 심리학 표지">
+      </div>
+      <div class="book-info">
+        <div class="book-session">#16</div>
+        <div class="book-title">돈의 심리학</div>
+        <div class="book-author">모건 하우절</div>
+        <div class="book-date">2024.09.28</div>
+      </div>
+    </div>
+
+    <!-- #17 -->
+    <div class="book-card">
+      <div class="book-cover">
+        <img src="images/17_광인.jpg" alt="광인 표지">
+      </div>
+      <div class="book-info">
+        <div class="book-session">#17</div>
+        <div class="book-title">광인</div>
+        <div class="book-author">이혁진</div>
+        <div class="book-date">2024.11.03</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- GAP -->
+  <div class="year-divider">
+    <span class="year-label">2025 - 2026</span>
+    <div class="year-line"></div>
+  </div>
+
+  <div class="gap-notice">
+    18~32회차는 비공개이거나 기록 준비 중입니다
+  </div>
+
+  <div class="book-grid">
+
+    <!-- #33 -->
+    <a href="sessions/33.html" class="book-card has-journal">
+      <div class="book-cover">
+        <img src="images/33_헝거게임.jpg" alt="헝거게임 표지">
+      </div>
+      <div class="book-info">
+        <div class="book-session">#33</div>
+        <div class="book-title">헝거게임</div>
+        <div class="book-author">수잔 콜린스</div>
+        <div class="book-date">2026.04.26</div>
+      </div>
+    </a>
+
+    <!-- #34 -->
+    <a href="sessions/34.html" class="book-card has-journal">
+      <div class="book-cover">
+        <img src="images/34_캣칭파이어.jpg" alt="캣칭 파이어 표지">
+      </div>
+      <div class="book-info">
+        <div class="book-session">#34</div>
+        <div class="book-title">캣칭 파이어</div>
+        <div class="book-author">수잔 콜린스</div>
+        <div class="book-date">2026.05.25</div>
+      </div>
+    </a>
+
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo">북오브차차차</div>
+  <div class="footer-sub">Since 2023 &middot; A Reading Club Archive</div>
+</footer>
+
+</body>
+</html>
