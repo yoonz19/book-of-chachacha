@@ -30,7 +30,7 @@
   /* HERO */
   .hero {
     background: var(--dark);
-    min-height: 480px;
+    min-height: 520px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -42,9 +42,16 @@
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(ellipse at 20% 80%, rgba(244,162,97,0.18) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 20%, rgba(230,57,70,0.12) 0%, transparent 50%),
-      radial-gradient(ellipse at 50% 50%, rgba(123,75,175,0.08) 0%, transparent 60%);
+      radial-gradient(circle at 15% 85%, rgba(244,162,97,0.2) 0%, transparent 40%),
+      radial-gradient(circle at 85% 15%, rgba(131,56,236,0.15) 0%, transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(0,180,216,0.06) 0%, transparent 50%);
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.5;
   }
   .hero-inner {
     position: relative;
@@ -53,65 +60,63 @@
     padding: 80px 32px;
     max-width: 800px;
   }
-  .hero-emoji {
-    font-size: 56px;
-    margin-bottom: 24px;
-    display: block;
-  }
-  .hero-badge {
-    display: inline-block;
-    background: rgba(244,162,97,0.15);
-    border: 1px solid rgba(244,162,97,0.3);
-    border-radius: 50px;
-    padding: 6px 24px;
-    color: var(--gold);
+  .hero-label {
     font-size: 13px;
     font-weight: 600;
-    letter-spacing: 4px;
+    letter-spacing: 5px;
     text-transform: uppercase;
-    margin-bottom: 28px;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 20px;
   }
   .hero-title {
     font-family: 'Paperlogy', 'Pretendard', sans-serif;
     font-weight: 900;
-    font-size: 64px;
+    font-size: 72px;
     color: #fff;
-    line-height: 1.15;
-    margin-bottom: 16px;
-    text-shadow: 0 4px 40px rgba(244,162,97,0.2);
+    line-height: 1.1;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #fff 0%, var(--gold) 50%, #fff 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 4s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0%, 100% { background-position: 0% center; }
+    50% { background-position: 200% center; }
   }
   .hero-sub {
-    font-size: 18px;
-    color: rgba(255,255,255,0.55);
+    font-size: 17px;
+    color: rgba(255,255,255,0.45);
     font-weight: 400;
-    line-height: 1.7;
+    line-height: 1.8;
+    max-width: 500px;
+    margin: 0 auto 32px;
   }
-
-  /* STATS */
-  .stats {
+  .hero-stats-inline {
     display: flex;
     justify-content: center;
-    gap: 48px;
-    padding: 48px 24px;
-    background: var(--dark2);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+    gap: 32px;
+    flex-wrap: wrap;
   }
-  .stat-item {
-    text-align: center;
+  .hero-stat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
-  .stat-num {
+  .hero-stat-num {
     font-family: 'Paperlogy', sans-serif;
-    font-size: 40px;
     font-weight: 800;
+    font-size: 28px;
     color: var(--gold);
-    line-height: 1.2;
   }
-  .stat-label {
-    font-size: 13px;
-    color: rgba(255,255,255,0.4);
+  .hero-stat-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
     font-weight: 500;
     letter-spacing: 1px;
-    margin-top: 4px;
+    text-align: left;
+    line-height: 1.3;
   }
 
   /* MAIN CONTENT */
@@ -401,11 +406,10 @@
 
   /* RESPONSIVE */
   @media (max-width: 768px) {
-    .hero-title { font-size: 40px; }
+    .hero-title { font-size: 44px; }
     .hero-inner { padding: 60px 20px; }
-    .hero-emoji { font-size: 40px; }
-    .stats { gap: 24px; flex-wrap: wrap; }
-    .stat-num { font-size: 28px; }
+    .hero-stat-num { font-size: 22px; }
+    .hero-stats-inline { gap: 20px; }
     .book-grid {
       grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
       gap: 16px;
@@ -422,7 +426,7 @@
     .section-header { flex-direction: column; gap: 4px; }
   }
   @media (max-width: 480px) {
-    .hero-title { font-size: 32px; }
+    .hero-title { font-size: 36px; }
     .book-grid {
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
@@ -437,33 +441,25 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-inner">
-    <span class="hero-emoji">&#128218;</span>
-    <div class="hero-badge">BOOK CLUB ARCHIVE</div>
+    <div class="hero-label">Book Club Archive</div>
     <h1 class="hero-title">북오브차차차</h1>
     <p class="hero-sub">
-      2023년 2월부터 함께 읽고, 나누고, 기록하는<br>
-      우리의 독서 여정 아카이브
+      2023년 2월부터 함께 읽고, 나누고, 기록하는 우리의 독서 여정
     </p>
-  </div>
-</section>
-
-<!-- STATS -->
-<section class="stats">
-  <div class="stat-item">
-    <div class="stat-num">34</div>
-    <div class="stat-label">SESSIONS</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num">34</div>
-    <div class="stat-label">BOOKS</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num">4</div>
-    <div class="stat-label">YEARS</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num">2023</div>
-    <div class="stat-label">SINCE</div>
+    <div class="hero-stats-inline">
+      <div class="hero-stat">
+        <span class="hero-stat-num">34</span>
+        <span class="hero-stat-label">books<br>read</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">4</span>
+        <span class="hero-stat-label">years<br>running</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">2023</span>
+        <span class="hero-stat-label">since<br>feb</span>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -733,7 +729,7 @@
     </a>
 
     <!-- #17 -->
-    <div class="book-card">
+    <a href="sessions/17.html" class="book-card has-journal">
       <div class="book-cover">
         <img src="images/17_광인.jpg" alt="광인 표지">
       </div>
@@ -744,7 +740,7 @@
         <div class="book-date">2024.11.03</div>
         <div class="book-presenter">발제 추진호</div>
       </div>
-    </div>
+    </a>
 
     <!-- #18 -->
     <a href="sessions/18.html" class="book-card has-journal">
@@ -992,6 +988,7 @@
         <div class="book-title">헝거게임</div>
         <div class="book-author">수잔 콜린스</div>
         <div class="book-date">2026.04.26</div>
+        <div class="book-presenter">발제 손종훈</div>
       </div>
     </a>
 
@@ -1005,6 +1002,7 @@
         <div class="book-title">캣칭 파이어</div>
         <div class="book-author">수잔 콜린스</div>
         <div class="book-date">2026.05.25</div>
+        <div class="book-presenter">발제 진동우</div>
       </div>
     </a>
 

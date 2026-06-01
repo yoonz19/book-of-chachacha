@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>북오브차차차 #17 - 광인</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/niceplugin/paperlogy-font@1.0.0/css/paperlogy.min.css">
+<style>
+  :root {
+    --primary: #8B0000;
+    --dark: #0D0A0A;
+    --gold: #C9A96E;
+    --warm-bg: #FAF9F6;
+    --slate: #2A1F1F;
+    --green: #6B4423;
+    --purple: #4A1942;
+    --text: #222;
+    --text2: #666;
+    --card: #FFFFFF;
+    --radius: 20px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'Pretendard', 'Noto Sans KR', -apple-system, sans-serif; background: var(--warm-bg); color: var(--text); line-height: 1.85; -webkit-font-smoothing: antialiased; }
+  .hero { background: var(--dark); min-height: 540px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 80%, rgba(139,0,0,0.3) 0%, transparent 50%), radial-gradient(ellipse at 70% 20%, rgba(201,169,110,0.15) 0%, transparent 50%); }
+  .hero-inner { position: relative; z-index: 1; display: flex; align-items: center; gap: 48px; max-width: 960px; padding: 60px 32px; width: 100%; }
+  .hero-cover { flex-shrink: 0; width: 220px; height: 330px; border-radius: 14px; overflow: hidden; box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 80px rgba(139,0,0,0.25); background: #000; }
+  .hero-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hero-text { flex: 1; }
+  .hero-badge { display: inline-block; background: rgba(201,169,110,0.15); border: 1px solid rgba(201,169,110,0.3); border-radius: 50px; padding: 6px 20px; color: var(--gold); font-size: 13px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 20px; }
+  .hero-title { font-family: 'Paperlogy', sans-serif; font-weight: 900; font-size: 56px; color: #fff; line-height: 1.1; margin-bottom: 6px; text-shadow: 0 4px 30px rgba(139,0,0,0.4); }
+  .hero-sub { font-family: 'Paperlogy', sans-serif; font-weight: 500; font-size: 22px; color: rgba(255,255,255,0.5); margin-bottom: 24px; }
+  .hero-meta { display: flex; gap: 24px; flex-wrap: wrap; }
+  .hero-meta-item { display: flex; align-items: center; gap: 8px; font-size: 14px; color: rgba(255,255,255,0.45); }
+  .hero-meta-item strong { color: rgba(255,255,255,0.7); font-weight: 600; }
+  .content { max-width: 800px; margin: 0 auto; padding: 48px 24px 80px; }
+  .book-intro { background: var(--card); border-radius: var(--radius); padding: 36px; margin-bottom: 40px; box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
+  .book-intro h2 { font-family: 'Paperlogy', sans-serif; font-weight: 700; font-size: 20px; margin-bottom: 12px; color: var(--slate); }
+  .book-intro p { font-size: 15px; color: var(--text2); line-height: 1.9; }
+  .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+  .tag { background: rgba(139,0,0,0.08); color: var(--primary); padding: 4px 14px; border-radius: 50px; font-size: 13px; font-weight: 500; }
+  .discussion-card { background: var(--card); border-radius: var(--radius); padding: 36px; margin-bottom: 28px; box-shadow: 0 2px 20px rgba(0,0,0,0.06); border-left: 4px solid var(--primary); }
+  .discussion-card:nth-child(even) { border-left-color: var(--gold); }
+  .discussion-card:nth-child(3n) { border-left-color: var(--green); }
+  .q-num { display: inline-block; background: var(--dark); color: var(--gold); width: 32px; height: 32px; border-radius: 50%; text-align: center; line-height: 32px; font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+  .q-title { font-family: 'Paperlogy', sans-serif; font-weight: 700; font-size: 18px; line-height: 1.5; margin-bottom: 20px; color: var(--slate); }
+  .discussion-card ul { list-style: none; padding: 0; }
+  .discussion-card li { position: relative; padding-left: 20px; margin-bottom: 14px; font-size: 15px; line-height: 1.8; color: var(--text); }
+  .discussion-card li::before { content: ''; position: absolute; left: 0; top: 10px; width: 6px; height: 6px; border-radius: 50%; background: var(--primary); }
+  .insight { background: linear-gradient(135deg, rgba(139,0,0,0.06) 0%, rgba(201,169,110,0.06) 100%); border-radius: 12px; padding: 20px 24px; margin-top: 20px; border: 1px solid rgba(139,0,0,0.1); }
+  .insight-label { font-size: 12px; font-weight: 700; color: var(--primary); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+  .insight p { font-size: 14px; color: var(--text2); line-height: 1.8; }
+  .footer { background: var(--dark); padding: 48px 24px; text-align: center; }
+  .footer-logo { font-family: 'Paperlogy', sans-serif; font-weight: 800; font-size: 18px; color: rgba(255,255,255,0.25); margin-bottom: 6px; }
+  .footer-sub { font-size: 13px; color: rgba(255,255,255,0.12); }
+  .back-link { display: inline-block; margin-bottom: 20px; color: var(--primary); text-decoration: none; font-size: 14px; font-weight: 600; }
+  .back-link:hover { text-decoration: underline; }
+  @media (max-width: 768px) { .hero-inner { flex-direction: column; text-align: center; padding: 40px 20px; } .hero-cover { width: 160px; height: 240px; } .hero-title { font-size: 36px; } .hero-meta { justify-content: center; } .content { padding: 32px 16px 60px; } .discussion-card, .book-intro { padding: 24px; } }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-cover">
+      <img src="../images/17_광인.jpg" alt="광인 표지">
+    </div>
+    <div class="hero-text">
+      <div class="hero-badge">BOOK OF CHA CHA CHA</div>
+      <h1 class="hero-title">광인</h1>
+      <div class="hero-sub">이혁진</div>
+      <div class="hero-meta">
+        <div class="hero-meta-item"><strong>#17</strong> 회차</div>
+        <div class="hero-meta-item"><strong>2024.11.03</strong> 일요일</div>
+        <div class="hero-meta-item"><strong>추진호</strong> 발제</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="content">
+
+  <a href="../index.html" class="back-link">&larr; 아카이브로 돌아가기</a>
+
+  <div class="book-intro">
+    <h2>책 소개</h2>
+    <p>
+      세 남녀의 사랑과 우정, 질투와 욕망을 위스키와 음악, 그리고 돈이라는 세계 속에서 그려낸 676쪽의 장편소설.
+      위스키에 미친 여자 하진, 음악에 미친 남자 준현, 사랑에 미친 남자 혜원 - 세 사람의 삼각관계가
+      집착과 광기로 치닫는 과정을 추적한다. 작가 이혁진이 "인간의 삶과 욕망을 증류하면 사랑이 남지 않을까"라는
+      생각으로 쓴 작품.
+    </p>
+    <div class="tags">
+      <span class="tag">장편소설</span>
+      <span class="tag">위스키</span>
+      <span class="tag">삼각관계</span>
+      <span class="tag">집착</span>
+      <span class="tag">욕망</span>
+      <span class="tag">음악</span>
+    </div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="discussion-card">
+    <span class="q-num">1</span>
+    <div class="q-title">주인공 3명 중 가장 마음 가는 인물은? 반대로 가장 마음에 들지 않는 인물은? 마지막 주인공의 선택은 이해가 되는지</div>
+    <ul>
+      <li>처음엔 하진이 매력적으로 느껴졌지만 갈수록 이기적인 모습에 실망했다는 의견이 압도적. "남자든 여자든 떠나서, 이 따위로 연애할 거면 연애 안 할래" 수준</li>
+      <li>하진의 '기꺼이 두 번째가 돼 주는 것이 사랑'이라는 말에 대해 - "내가 스스로 두 번째가 되겠다고 하면 모를까, 상대방에게 두 번째가 되라고 하는 건 다른 문제"</li>
+      <li>혜원에 대해 - 준현 집에 자겠다고 우기는 것부터 급격히 매력이 떨어짐. "나를 믿지 못하면 함께할 수 없어" 식의 워딩은 연애참견에 나오면 욕먹을 수준</li>
+      <li>셋 다 자기 상처에 매몰되어 있고 자기연민이 심함. "다들 멋있는 척하려고 발악하는 대사만 가득한데, 술 먹고 센치해졌을 때 멋있는 척하는 말을 매 순간 하는 느낌"</li>
+      <li>혜원의 자살에 대해 - 애도 생기고 하진도 활기를 찾아가는 상황에서 갑자기 죽어버려서 하진만 더 불쌍해졌다. "하진한테서 모든 걸 빼앗아놓고 끈나풀만 줬다가 또 없애버리니 너무 잔인하다"</li>
+      <li>만약 세 명 중 한 명의 삶을 살아야 한다면? - 대부분 혜원 선택 (돈 많고 사회적 위치가 있으니까). "방화만 안 하면 될 것 같다"는 결론</li>
+    </ul>
+    <div class="insight">
+      <div class="insight-label">INSIGHT</div>
+      <p>작가가 의도적으로 캐릭터를 매력적으로 그렸다가 추락시킨 것 같다는 분석. 혜원이 미쳐야 하는 계기를 만들기 위해 하진을 극도로 매력적으로 설정한 뒤, 그 매력이 독이 되는 구조를 의도한 것.</p>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="discussion-card">
+    <span class="q-num">2</span>
+    <div class="q-title">무엇인가에 미쳐본 경험을 공유해봅시다. 좋아하는 술이 있나요?</div>
+    <ul>
+      <li>아이돌 덕질에 미친 멤버 - 유튜브 자체 콘텐츠 섭렵, 콘서트 다수 참석. "건전한 수준"이라고 주장했으나 모임 전체의 반응은 "그 정도면 미친 거 맞는데"</li>
+      <li>뮤지컬에 미쳤던 멤버 - 친구 결혼식보다 공연 연습을 우선시할 정도로 매몰됨. 코로나가 강제로 끊어줘서 제정신을 차림. "소설 속 혜원이 아이 생기면서 잠깐 멈춘 것과 비슷"</li>
+      <li>만화책에 미쳤던 멤버 - 엄마 몰래 야자 끝나고 만화방 찾아가 단골이 될 정도. "20살 되면 나만의 만화책방을 만들겠다" 했는데 막상 성인이 되니 만화방에서 초중고생 사이에 끼어 있는 게 민망해서 웹툰으로 전향</li>
+      <li>책 사는 것에 미친 멤버 - 넣을 데가 없는데 50권을 한 번에 삼. "이성적 판단이 안 된 게 아닐까요?" "돈 쓰는 건 좋아하지 미친 건 아니야" 반박</li>
+      <li>위스키와 와인 취향 이야기 - 피트 위스키의 매력(스모키+소독약 향), 드라이 와인의 반전 (비싼 것을 마셔보니 향이 혀보다 먼저 넘어감), "아는 만큼 보이고 경험해봐야 취향이 생긴다"는 공감대</li>
+    </ul>
+    <div class="insight">
+      <div class="insight-label">INSIGHT</div>
+      <p>"미쳤다"의 기준은 사람마다 다르지만, 소설 속 인물들은 법의 테두리를 벗어난 것이 문제. 미쳐 있어도 법 안에서 미쳐 있으면 괜찮은데, 타인에게 피해를 줄 정도로 미쳐 있으면 안 된다는 합의.</p>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="discussion-card">
+    <span class="q-num">3</span>
+    <div class="q-title">위스키 묘사 중 가장 끌렸던 표현이나 마셔보고 싶었던 위스키는?</div>
+    <ul>
+      <li>복숭아 향 나는 위스키에 다들 관심 - 혜원이 처음 마신 하진의 위스키. 복숭아를 넣은 게 아니라 버번 캐스크 숙성 과정에서 우연히 생기는 화학물질이 복숭아 향을 만들어냄</li>
+      <li>피트 위스키에 대한 설명 - 스코틀랜드에 석탄이 부족해서 이탄(피트)으로 보리를 말린 것이 유래. 라프로익 증류소의 슬로건 "Love or Hate"가 피트 위스키의 본질을 설명</li>
+      <li>위스키를 모으는 친구가 있는 멤버 - 달모어(Dalmore), 송중기가 재벌집 막내아들에서 마시던 그 위스키. 숙성 연도에 따라 맛과 가격이 천차만별</li>
+      <li>"오빠 집에서 위스키 레슨하면서 읽었어야 했는데!" - 위스키 애호가 멤버의 집에서 연말 파티 겸 위스키 테이스팅을 하기로 즉석 결정</li>
+    </ul>
+  </div>
+
+  <!-- Q4 -->
+  <div class="discussion-card">
+    <span class="q-num">4</span>
+    <div class="q-title">등장인물 중 가장 미친 인물은 누구라고 생각하나요?</div>
+    <ul>
+      <li>혜원이 압도적 1위 - "미쳐 있어도 법의 테두리 안에서 미쳐 있으면 괜찮은데, 이 사람은 방화라는 선을 완전히 넘어버렸다"</li>
+      <li>하진도 사실 미쳤다는 의견 - 혜원의 정신 건강을 엉망으로 만들어놓음. 외간 남자 집에서 자겠다고 우기고, 갈등을 만들어놓은 장본인</li>
+      <li>사실 이 소설에 정상인은 한 명도 없다 - 혜원 아빠도 미쳤고, 준현 엄마도 미쳤고, 하진 엄마도 바람을 피웠고. "세상에 정상인 사람이 없는 세계관"</li>
+      <li>혜원 아빠에 대한 반전 - 평생 폭력적인 아빠로만 알았는데 엄마가 바람을 피운 사실이 밝혀짐. "맞을 짓을 하셨구나. 그래도 때리는 건 정당화될 수 없지만"</li>
+      <li>혜원이 아빠를 닮아가는 과정이 무서움 - 손을 올릴 뻔하거나, 사업가 마인드로 이익을 추구하는 모습에서 아버지의 피가 보인다는 분석</li>
+    </ul>
+    <div class="insight">
+      <div class="insight-label">INSIGHT</div>
+      <p>INTJ 빌런론으로 화제 전환 - 타노스, 모리아티, 볼드모트 등 영화 빌런들이 INTJ라는 이야기에서 "신념 있는 빌런"의 특징으로 연결. "타노스는 정말 공평하게 랜덤으로 절반을 없앤 뒤 농사를 짓고 은퇴했다. 진짜 신념적이었다."</p>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="discussion-card">
+    <span class="q-num">5</span>
+    <div class="q-title">내가 준현이었다면, 고지서를 본 당신은 어떻게 행동했을 것 같나요?</div>
+    <ul>
+      <li>"신고한다" - 즉답한 멤버 (준법정신의 화신)</li>
+      <li>준현이 왜 굳이 혜원 집에 가서 고지서를 가져왔는지 경로 자체가 의문 - 타인의 우편물인데 예의에 어긋남. "확신이 있어서 쑤셔보려고 한 것 아닐까"</li>
+      <li>혜원에게 직접 오픈하지는 않았을 것 - "오픈하는 순간 자신이 끝이라는 걸 알아서 자살한 거잖아"</li>
+      <li>하진에게는 말해줘야 한다는 의견 - "내 친구의 연인이 바람피는 걸 목격한 것과 비슷한 딜레마. 근데 친구니까 알려줘야지"</li>
+      <li>만약 하진에게 알렸다면? 오히려 하진이 눈 돌아서 혜원을 공격하는 결말이 더 재미있었을 거라는 대체 시나리오. "준현이 강 건너 불구경하고, 하진이 복수하고, 결국 준현과 하진이 파트너가 되는 결말"</li>
+    </ul>
+  </div>
+
+  <!-- Q6 -->
+  <div class="discussion-card">
+    <span class="q-num">6</span>
+    <div class="q-title">작가는 '인간의 삶과 욕망을 증류하면 사랑이 남지 않을까'라는 생각으로 소설을 썼다고 합니다. 동의하시나요?</div>
+    <ul>
+      <li>"사랑이 남은 게 아니라 욕망만 남은 것 같다" - 작가의 의도와 소설의 실제 결이 맞지 않는다는 지적. 사랑이 증류되고 욕망만 남은 잘못 만든 술</li>
+      <li>반론 - 혜원이 순수한 욕망만 남았다면 끝까지 하진을 놓지 않았을 것. 자살이라는 선택은 하진을 놓아주는 행위이고, 그것이 곧 사랑이라는 해석</li>
+      <li>"내가 없어져야 하진이 행복해질 수 있다"는 깨달음이 욕망을 넘어선 사랑이라는 분석. 하지만 자살 자체가 하진에게 또 다른 고통이므로 끝까지 이기적</li>
+      <li>결국 여기서 말하는 사랑은 이타적인 것이 아니라 "내 안에 있는 사랑을 내가 원하는 방식으로 지키는 것". 상대방과는 별로 상관없는 자기중심적 사랑</li>
+      <li>"말은 되게 멋있게 했지만 뭔 소린데... 작가도 아직 중2병이 끝나지 않은 건 아닐까?"라는 냉정한 총평</li>
+    </ul>
+    <div class="insight">
+      <div class="insight-label">INSIGHT</div>
+      <p>"인간의 삶과 욕망을 증류하면 사랑이 남는다"가 아니라 "인간의 삶을 증류하면 욕망만 남고, 그 욕망이 사랑이라고 착각하는 과정이 광기다"라는 것이 모임의 결론. 사랑과 집착의 경계, 그리고 그것을 사랑이라 부르는 자기기만에 대해 깊이 이야기한 밤.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-logo">북오브차차차 #17</div>
+  <div class="footer-sub">2024.11.03 &middot; 광인 &middot; 이혁진</div>
+</footer>
+
+</body>
+</html>
