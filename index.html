@@ -178,6 +178,21 @@
     letter-spacing: 1px;
   }
   .hero-scroll { display: none; }
+  .vote-link {
+    display: inline-block;
+    margin-bottom: 28px;
+    padding: 10px 28px;
+    border-radius: 100px;
+    background: rgba(244,162,97,0.12);
+    border: 1px solid rgba(244,162,97,0.25);
+    color: var(--gold);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+  }
+  .vote-link:hover { background: rgba(244,162,97,0.2); }
 
   /* MAIN CONTENT */
   .main {
@@ -527,6 +542,7 @@
     <p class="hero-sub">
       함께 읽고, 나누고, 기록하는 우리의 독서 여정
     </p>
+    <a href="vote.html" class="vote-link">BEST & WORST 투표하기 &rarr;</a>
     <div class="hero-pills">
       <div class="hero-pill">
         <span class="hero-pill-num">34</span>

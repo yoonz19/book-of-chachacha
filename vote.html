@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>북오브차차차 - 연간 베스트 & 워스트 투표</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/niceplugin/paperlogy-font@1.0.0/css/paperlogy.min.css">
+<style>
+  :root { --dark: #0D0D13; --gold: #F4A261; --warm-bg: #FAF9F6; --text: #222; --text2: #888; --card: #fff; --radius: 16px; --best: #2D8B5E; --worst: #C62828; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Pretendard',sans-serif; background:var(--warm-bg); color:var(--text); line-height:1.7; -webkit-font-smoothing:antialiased; }
+
+  .header { background:var(--dark); padding:48px 24px; text-align:center; position:relative; overflow:hidden; }
+  .header::before { content:''; position:absolute; inset:0; background:conic-gradient(from 45deg at 20% 80%,rgba(244,162,97,0.15) 0deg,transparent 120deg),conic-gradient(from 200deg at 80% 20%,rgba(131,56,236,0.12) 0deg,transparent 120deg); }
+  .header-inner { position:relative; z-index:1; }
+  .header a { color:var(--gold); text-decoration:none; font-size:13px; font-weight:600; letter-spacing:1px; }
+  .header a:hover { text-decoration:underline; }
+  .header h1 { font-family:'Paperlogy',sans-serif; font-weight:900; font-size:36px; color:#fff; margin:16px 0 8px; }
+  .header p { color:rgba(255,255,255,0.4); font-size:14px; }
+
+  .main { max-width:720px; margin:0 auto; padding:40px 20px 80px; }
+
+  /* Year selector */
+  .year-tabs { display:flex; gap:8px; margin-bottom:32px; flex-wrap:wrap; }
+  .year-tab { padding:10px 24px; border-radius:100px; border:1px solid #ddd; background:var(--card); font-size:14px; font-weight:600; cursor:pointer; transition:all 0.2s; color:var(--text2); }
+  .year-tab.active { background:var(--dark); color:#fff; border-color:var(--dark); }
+  .year-tab:hover:not(.active) { border-color:var(--gold); color:var(--gold); }
+
+  /* Category */
+  .category { margin-bottom:40px; }
+  .category-title { display:flex; align-items:center; gap:12px; margin-bottom:20px; }
+  .category-badge { font-family:'Paperlogy',sans-serif; font-weight:800; font-size:14px; padding:6px 16px; border-radius:8px; letter-spacing:1px; }
+  .category-badge.best { background:rgba(45,139,94,0.1); color:var(--best); }
+  .category-badge.worst { background:rgba(198,40,40,0.1); color:var(--worst); }
+  .category-sub { font-size:13px; color:var(--text2); }
+
+  /* Book vote list */
+  .vote-list { display:flex; flex-direction:column; gap:8px; }
+  .vote-item { display:flex; align-items:center; gap:14px; padding:14px 18px; background:var(--card); border-radius:12px; border:2px solid transparent; cursor:pointer; transition:all 0.2s; box-shadow:0 1px 4px rgba(0,0,0,0.04); }
+  .vote-item:hover { border-color:#ddd; transform:translateX(4px); }
+  .vote-item.selected-best { border-color:var(--best); background:rgba(45,139,94,0.04); }
+  .vote-item.selected-worst { border-color:var(--worst); background:rgba(198,40,40,0.04); }
+  .vote-item img { width:44px; height:62px; object-fit:cover; border-radius:6px; flex-shrink:0; }
+  .vote-item-info { flex:1; min-width:0; }
+  .vote-item-title { font-family:'Paperlogy',sans-serif; font-weight:700; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .vote-item-author { font-size:12px; color:var(--text2); }
+  .vote-check { width:28px; height:28px; border-radius:50%; border:2px solid #ddd; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:14px; transition:all 0.2s; }
+  .selected-best .vote-check { border-color:var(--best); background:var(--best); color:#fff; }
+  .selected-worst .vote-check { border-color:var(--worst); background:var(--worst); color:#fff; }
+
+  /* Result */
+  .result-box { background:var(--card); border-radius:var(--radius); padding:32px; margin-top:40px; box-shadow:0 2px 16px rgba(0,0,0,0.06); text-align:center; display:none; }
+  .result-box.show { display:block; }
+  .result-title { font-family:'Paperlogy',sans-serif; font-weight:800; font-size:20px; margin-bottom:8px; }
+  .result-picks { display:flex; gap:24px; justify-content:center; margin:24px 0; flex-wrap:wrap; }
+  .result-pick { text-align:center; }
+  .result-pick img { width:80px; height:113px; object-fit:cover; border-radius:10px; box-shadow:0 4px 16px rgba(0,0,0,0.1); margin-bottom:8px; }
+  .result-pick-label { font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:4px; }
+  .result-pick-label.best { color:var(--best); }
+  .result-pick-label.worst { color:var(--worst); }
+  .result-pick-title { font-family:'Paperlogy',sans-serif; font-weight:700; font-size:14px; }
+
+  /* Buttons */
+  .btn-row { display:flex; gap:12px; justify-content:center; margin-top:24px; flex-wrap:wrap; }
+  .btn { padding:12px 28px; border-radius:100px; border:none; font-size:14px; font-weight:600; cursor:pointer; transition:all 0.2s; font-family:'Pretendard',sans-serif; }
+  .btn-primary { background:var(--dark); color:#fff; }
+  .btn-primary:hover { background:#222; }
+  .btn-share { background:rgba(244,162,97,0.12); color:var(--gold); border:1px solid rgba(244,162,97,0.3); }
+  .btn-share:hover { background:rgba(244,162,97,0.2); }
+  .btn:disabled { opacity:0.4; cursor:not-allowed; }
+
+  .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px); background:var(--dark); color:#fff; padding:14px 28px; border-radius:100px; font-size:14px; font-weight:500; transition:transform 0.3s ease; z-index:100; pointer-events:none; }
+  .toast.show { transform:translateX(-50%) translateY(0); }
+
+  .footer { background:var(--dark); padding:32px 24px; text-align:center; }
+  .footer-text { font-size:13px; color:rgba(255,255,255,0.2); }
+
+  @media (max-width:480px) {
+    .header h1 { font-size:28px; }
+    .result-picks { gap:16px; }
+    .result-pick img { width:64px; height:90px; }
+    .vote-item { padding:12px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <a href="index.html">&larr; 아카이브로 돌아가기</a>
+    <h1>BEST & WORST</h1>
+    <p>올해 가장 좋았던 책, 가장 별로였던 책에 투표하세요</p>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="year-tabs" id="yearTabs"></div>
+
+  <div class="category">
+    <div class="category-title">
+      <span class="category-badge best">BEST</span>
+      <span class="category-sub">올해 가장 좋았던 책 1권</span>
+    </div>
+    <div class="vote-list" id="bestList"></div>
+  </div>
+
+  <div class="category">
+    <div class="category-title">
+      <span class="category-badge worst">WORST</span>
+      <span class="category-sub">올해 가장 별로였던 책 1권</span>
+    </div>
+    <div class="vote-list" id="worstList"></div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-primary" id="submitBtn" disabled onclick="submitVote()">투표 완료</button>
+  </div>
+
+  <div class="result-box" id="resultBox">
+    <div class="result-title">나의 투표 결과</div>
+    <div class="result-picks" id="resultPicks"></div>
+    <div class="btn-row">
+      <button class="btn btn-share" onclick="shareResult()">카톡에 공유하기</button>
+      <button class="btn btn-primary" onclick="resetVote()">다시 투표하기</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast">클립보드에 복사되었습니다!</div>
+
+<footer class="footer">
+  <div class="footer-text">북오브차차차 &middot; Since 2023</div>
+</footer>
+
+<script>
+const books = {
+  2023: [
+    {id:1,title:"하얼빈",author:"김훈",img:"images/01_하얼빈.jpg"},
+    {id:2,title:"소크라테스 익스프레스",author:"에릭 와이너",img:"images/02_소크라테스익스프레스.jpg"},
+    {id:3,title:"가재가 노래하는 곳",author:"델리아 오언스",img:"images/03_가재가노래하는곳.jpg"},
+    {id:4,title:"고래",author:"천명관",img:"images/04_고래.jpg"},
+    {id:5,title:"킨",author:"옥타비아 버틀러",img:"images/05_킨.jpg"},
+    {id:6,title:"도파민네이션",author:"애나 렘키",img:"images/06_도파민네이션.jpg"},
+    {id:7,title:"단순한 열정",author:"아니 에르노",img:"images/07_단순한열정.jpg"},
+    {id:8,title:"걸 인 더 미러",author:"로즈 칼라일",img:"images/08_걸인더미러.jpg"},
+    {id:9,title:"인구 미래 공존",author:"조영태",img:"images/09_인구미래공존.jpg"},
+  ],
+  2024: [
+    {id:10,title:"도시와 그 불확실한 벽",author:"무라카미 하루키",img:"images/10_도시와그불확실한벽.jpg"},
+    {id:11,title:"위대한 개츠비",author:"스콧 피츠제럴드",img:"images/11_위대한개츠비.jpg"},
+    {id:12,title:"슈독",author:"필 나이트",img:"images/12_슈독.jpg"},
+    {id:13,title:"장미의 이름",author:"움베르트 에코",img:"images/13_장미의이름.jpg"},
+    {id:14,title:"작은 땅 위의 야수들",author:"김주혜",img:"images/14_작은땅위의야수들.jpg"},
+    {id:15,title:"나는 메트로폴리탄 미술관의 경비원입니다",author:"패트릭 브링리",img:"images/15_메트로폴리탄경비원.jpg"},
+    {id:16,title:"돈의 심리학",author:"모건 하우절",img:"images/16_돈의심리학.jpg"},
+    {id:17,title:"광인",author:"이혁진",img:"images/17_광인.jpg"},
+    {id:18,title:"레디 플레이어 원",author:"어니스트 클라인",img:"images/18_레디플레이어원.jpg"},
+  ],
+  2025: [
+    {id:19,title:"루팡의 딸 1",author:"요코제키 다이",img:"images/19_루팡의딸.jpg"},
+    {id:20,title:"초역 부처의 말",author:"코이케 류노스케",img:"images/20_초역부처의말.jpg"},
+    {id:21,title:"내가 나를 버린 날",author:"마츠무라 료야",img:"images/21_내가나를버린날.jpg"},
+    {id:22,title:"누운 배",author:"이혁진",img:"images/22_누운배.jpg"},
+    {id:23,title:"스토너",author:"존 윌리엄스",img:"images/23_스토너.jpg"},
+    {id:24,title:"참을 수 없는 존재의 가벼움",author:"밀란 쿤데라",img:"images/24_참을수없는존재의가벼움.jpg"},
+    {id:25,title:"종의 기원",author:"정유정",img:"images/25_종의기원.jpg"},
+    {id:26,title:"혼모노",author:"성해나",img:"images/26_혼모노.jpg"},
+    {id:27,title:"아몬드",author:"손원평",img:"images/27_아몬드.jpg"},
+    {id:28,title:"파이 이야기",author:"얀 마텔",img:"images/28_파이이야기.jpg"},
+    {id:29,title:"프로젝트 헤일메리",author:"앤디 위어",img:"images/29_프로젝트헤일메리.jpg"},
+  ],
+  2026: [
+    {id:30,title:"지뢰 글리코",author:"아오사키 유고",img:"images/30_지뢰글리코.jpg"},
+    {id:31,title:"모순",author:"양귀자",img:"images/31_모순.jpg"},
+    {id:32,title:"나의 완벽한 장례식",author:"조현선",img:"images/32_나의완벽한장례식.jpg"},
+    {id:33,title:"헝거게임",author:"수잔 콜린스",img:"images/33_헝거게임.jpg"},
+    {id:34,title:"캣칭 파이어",author:"수잔 콜린스",img:"images/34_캣칭파이어.jpg"},
+  ]
+};
+
+let currentYear = 2025;
+let bestPick = null;
+let worstPick = null;
+
+function init() {
+  const tabs = document.getElementById('yearTabs');
+  Object.keys(books).forEach(y => {
+    const btn = document.createElement('button');
+    btn.className = 'year-tab' + (parseInt(y) === currentYear ? ' active' : '');
+    btn.textContent = y;
+    btn.onclick = () => switchYear(parseInt(y));
+    tabs.appendChild(btn);
+  });
+  renderBooks();
+  loadSaved();
+}
+
+function switchYear(y) {
+  currentYear = y;
+  bestPick = null;
+  worstPick = null;
+  document.querySelectorAll('.year-tab').forEach(t => t.classList.toggle('active', parseInt(t.textContent) === y));
+  document.getElementById('resultBox').classList.remove('show');
+  renderBooks();
+  loadSaved();
+  updateBtn();
+}
+
+function renderBooks() {
+  const list = books[currentYear] || [];
+  document.getElementById('bestList').innerHTML = list.map(b => `
+    <div class="vote-item${bestPick===b.id?' selected-best':''}" onclick="pickBest(${b.id})">
+      <img src="${b.img}" alt="">
+      <div class="vote-item-info">
+        <div class="vote-item-title">${b.title}</div>
+        <div class="vote-item-author">${b.author}</div>
+      </div>
+      <div class="vote-check">${bestPick===b.id?'&#10003;':''}</div>
+    </div>
+  `).join('');
+  document.getElementById('worstList').innerHTML = list.map(b => `
+    <div class="vote-item${worstPick===b.id?' selected-worst':''}" onclick="pickWorst(${b.id})">
+      <img src="${b.img}" alt="">
+      <div class="vote-item-info">
+        <div class="vote-item-title">${b.title}</div>
+        <div class="vote-item-author">${b.author}</div>
+      </div>
+      <div class="vote-check">${worstPick===b.id?'&#10003;':''}</div>
+    </div>
+  `).join('');
+}
+
+function pickBest(id) { bestPick = bestPick===id?null:id; if(bestPick===worstPick) worstPick=null; renderBooks(); updateBtn(); }
+function pickWorst(id) { worstPick = worstPick===id?null:id; if(worstPick===bestPick) bestPick=null; renderBooks(); updateBtn(); }
+function updateBtn() { document.getElementById('submitBtn').disabled = !(bestPick && worstPick); }
+
+function getBook(id) { for(const y in books) for(const b of books[y]) if(b.id===id) return b; return null; }
+
+function submitVote() {
+  localStorage.setItem('vote_'+currentYear, JSON.stringify({best:bestPick,worst:worstPick}));
+  showResult();
+}
+
+function showResult() {
+  const b = getBook(bestPick), w = getBook(worstPick);
+  document.getElementById('resultPicks').innerHTML = `
+    <div class="result-pick">
+      <div class="result-pick-label best">BEST</div>
+      <img src="${b.img}" alt="">
+      <div class="result-pick-title">${b.title}</div>
+    </div>
+    <div class="result-pick">
+      <div class="result-pick-label worst">WORST</div>
+      <img src="${w.img}" alt="">
+      <div class="result-pick-title">${w.title}</div>
+    </div>
+  `;
+  document.getElementById('resultBox').classList.add('show');
+  document.getElementById('resultBox').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function shareResult() {
+  const b = getBook(bestPick), w = getBook(worstPick);
+  const text = `[북오브차차차 ${currentYear} 투표]\nBEST: ${b.title} (${b.author})\nWORST: ${w.title} (${w.author})\n\n투표하러 가기 👉 https://yoonz19.github.io/book-of-chachacha/vote.html`;
+  navigator.clipboard.writeText(text).then(() => {
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
+  });
+}
+
+function resetVote() {
+  localStorage.removeItem('vote_'+currentYear);
+  bestPick = null; worstPick = null;
+  document.getElementById('resultBox').classList.remove('show');
+  renderBooks(); updateBtn();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function loadSaved() {
+  const saved = localStorage.getItem('vote_'+currentYear);
+  if(saved) { const v = JSON.parse(saved); bestPick=v.best; worstPick=v.worst; renderBooks(); updateBtn(); showResult(); }
+}
+
+init();
+</script>
+</body>
+</html>
