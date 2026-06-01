@@ -53,49 +53,45 @@
     opacity: 0.4;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
   }
-  /* Marquee ticker */
-  .hero-marquee {
+  /* Book cover marquee */
+  .hero-covers {
     position: absolute;
-    top: 50%;
+    top: 0;
     left: 0;
     width: 100%;
-    transform: translateY(-50%);
-    overflow: hidden;
+    height: 100%;
     z-index: 0;
     pointer-events: none;
+    overflow: hidden;
+    filter: blur(4px);
+    opacity: 0.12;
   }
-  .hero-marquee-track {
+  .hero-covers-row {
     display: flex;
-    white-space: nowrap;
-    animation: marquee 40s linear infinite;
+    position: absolute;
+    left: 0;
+    gap: 16px;
+    animation: covers-scroll 50s linear infinite;
   }
-  .hero-marquee-track span {
-    font-family: 'Paperlogy', sans-serif;
-    font-weight: 900;
-    font-size: 90px;
-    color: rgba(255,255,255,0.02);
-    padding: 0 40px;
-    text-transform: uppercase;
-    letter-spacing: -2px;
+  .hero-covers-row:nth-child(1) {
+    top: -10px;
   }
-  @keyframes marquee {
+  .hero-covers-row:nth-child(2) {
+    bottom: -10px;
+    animation: covers-scroll-reverse 45s linear infinite;
+  }
+  .hero-covers-row img {
+    width: 120px;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+  @keyframes covers-scroll {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
   }
-  /* Second marquee row */
-  .hero-marquee-2 {
-    position: absolute;
-    top: 30%;
-    left: 0;
-    width: 100%;
-    overflow: hidden;
-    z-index: 0;
-    pointer-events: none;
-  }
-  .hero-marquee-2 .hero-marquee-track {
-    animation: marquee-reverse 35s linear infinite;
-  }
-  @keyframes marquee-reverse {
+  @keyframes covers-scroll-reverse {
     0% { transform: translateX(-50%); }
     100% { transform: translateX(0); }
   }
@@ -471,7 +467,7 @@
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .hero-title { font-size: 44px; letter-spacing: -1px; }
-    .hero-marquee-track span { font-size: 60px; }
+    .hero-covers-row img { width: 80px; height: 114px; }
     .hero-pill { padding: 8px 18px; }
     .hero-pill-num { font-size: 18px; }
     .book-grid {
@@ -491,7 +487,7 @@
   }
   @media (max-width: 480px) {
     .hero-title { font-size: 36px; letter-spacing: 0; }
-    .hero-marquee-track span { font-size: 48px; }
+    .hero-covers-row img { width: 64px; height: 91px; }
     .book-grid {
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
@@ -505,17 +501,15 @@
 
 <!-- HERO -->
 <section class="hero">
-  <!-- Marquee background -->
-  <div class="hero-marquee">
-    <div class="hero-marquee-track">
-      <span>하얼빈</span><span>고래</span><span>킨</span><span>단순한열정</span><span>위대한개츠비</span><span>슈독</span><span>광인</span><span>스토너</span><span>아몬드</span><span>혼모노</span><span>모순</span><span>헝거게임</span>
-      <span>하얼빈</span><span>고래</span><span>킨</span><span>단순한열정</span><span>위대한개츠비</span><span>슈독</span><span>광인</span><span>스토너</span><span>아몬드</span><span>혼모노</span><span>모순</span><span>헝거게임</span>
+  <!-- Book cover marquee background -->
+  <div class="hero-covers">
+    <div class="hero-covers-row">
+      <img src="images/01_하얼빈.jpg" alt=""><img src="images/04_고래.jpg" alt=""><img src="images/05_킨.jpg" alt=""><img src="images/07_단순한열정.jpg" alt=""><img src="images/10_도시와그불확실한벽.jpg" alt=""><img src="images/11_위대한개츠비.jpg" alt=""><img src="images/13_장미의이름.jpg" alt=""><img src="images/17_광인.jpg" alt=""><img src="images/20_초역부처의말.jpg" alt=""><img src="images/23_스토너.jpg" alt=""><img src="images/26_혼모노.jpg" alt=""><img src="images/28_파이이야기.jpg" alt=""><img src="images/30_지뢰글리코.jpg" alt=""><img src="images/33_헝거게임.jpg" alt=""><img src="images/24_참을수없는존재의가벼움.jpg" alt=""><img src="images/29_프로젝트헤일메리.jpg" alt="">
+      <img src="images/01_하얼빈.jpg" alt=""><img src="images/04_고래.jpg" alt=""><img src="images/05_킨.jpg" alt=""><img src="images/07_단순한열정.jpg" alt=""><img src="images/10_도시와그불확실한벽.jpg" alt=""><img src="images/11_위대한개츠비.jpg" alt=""><img src="images/13_장미의이름.jpg" alt=""><img src="images/17_광인.jpg" alt=""><img src="images/20_초역부처의말.jpg" alt=""><img src="images/23_스토너.jpg" alt=""><img src="images/26_혼모노.jpg" alt=""><img src="images/28_파이이야기.jpg" alt=""><img src="images/30_지뢰글리코.jpg" alt=""><img src="images/33_헝거게임.jpg" alt=""><img src="images/24_참을수없는존재의가벼움.jpg" alt=""><img src="images/29_프로젝트헤일메리.jpg" alt="">
     </div>
-  </div>
-  <div class="hero-marquee-2">
-    <div class="hero-marquee-track">
-      <span>소크라테스</span><span>도파민네이션</span><span>장미의이름</span><span>레디플레이어원</span><span>파이이야기</span><span>종의기원</span><span>프로젝트헤일메리</span><span>지뢰글리코</span><span>캣칭파이어</span>
-      <span>소크라테스</span><span>도파민네이션</span><span>장미의이름</span><span>레디플레이어원</span><span>파이이야기</span><span>종의기원</span><span>프로젝트헤일메리</span><span>지뢰글리코</span><span>캣칭파이어</span>
+    <div class="hero-covers-row">
+      <img src="images/02_소크라테스익스프레스.jpg" alt=""><img src="images/03_가재가노래하는곳.jpg" alt=""><img src="images/06_도파민네이션.jpg" alt=""><img src="images/08_걸인더미러.jpg" alt=""><img src="images/09_인구미래공존.jpg" alt=""><img src="images/12_슈독.jpg" alt=""><img src="images/14_작은땅위의야수들.jpg" alt=""><img src="images/16_돈의심리학.jpg" alt=""><img src="images/18_레디플레이어원.jpg" alt=""><img src="images/21_내가나를버린날.jpg" alt=""><img src="images/25_종의기원.jpg" alt=""><img src="images/27_아몬드.jpg" alt=""><img src="images/31_모순.jpg" alt=""><img src="images/34_캣칭파이어.jpg" alt=""><img src="images/22_누운배.jpg" alt=""><img src="images/32_나의완벽한장례식.jpg" alt="">
+      <img src="images/02_소크라테스익스프레스.jpg" alt=""><img src="images/03_가재가노래하는곳.jpg" alt=""><img src="images/06_도파민네이션.jpg" alt=""><img src="images/08_걸인더미러.jpg" alt=""><img src="images/09_인구미래공존.jpg" alt=""><img src="images/12_슈독.jpg" alt=""><img src="images/14_작은땅위의야수들.jpg" alt=""><img src="images/16_돈의심리학.jpg" alt=""><img src="images/18_레디플레이어원.jpg" alt=""><img src="images/21_내가나를버린날.jpg" alt=""><img src="images/25_종의기원.jpg" alt=""><img src="images/27_아몬드.jpg" alt=""><img src="images/31_모순.jpg" alt=""><img src="images/34_캣칭파이어.jpg" alt=""><img src="images/22_누운배.jpg" alt=""><img src="images/32_나의완벽한장례식.jpg" alt="">
     </div>
   </div>
 
