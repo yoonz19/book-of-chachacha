@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>북오브차차차 #18 - 레디 플레이어 원</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/niceplugin/paperlogy-font@1.0.0/css/paperlogy.min.css">
+<style>
+  :root {
+    --primary: #00B4D8;
+    --dark: #0A0E17;
+    --gold: #FFD166;
+    --warm-bg: #FAFAF7;
+    --slate: #1B2838;
+    --green: #06D6A0;
+    --purple: #8338EC;
+    --text: #222;
+    --text2: #666;
+    --card: #FFFFFF;
+    --radius: 20px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Pretendard', 'Noto Sans KR', -apple-system, sans-serif;
+    background: var(--warm-bg);
+    color: var(--text);
+    line-height: 1.85;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--dark);
+    min-height: 540px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 80%, rgba(0,180,216,0.25) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 20%, rgba(131,56,236,0.18) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(255,209,102,0.08) 0%, transparent 60%);
+  }
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    max-width: 960px;
+    padding: 60px 32px;
+    width: 100%;
+  }
+  .hero-cover {
+    flex-shrink: 0;
+    width: 220px;
+    height: 330px;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 80px rgba(0,180,216,0.2);
+    background: #000;
+  }
+  .hero-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .hero-text { flex: 1; }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(0,180,216,0.15);
+    border: 1px solid rgba(0,180,216,0.3);
+    border-radius: 50px;
+    padding: 6px 20px;
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .hero-title {
+    font-family: 'Paperlogy', 'Pretendard', sans-serif;
+    font-weight: 900;
+    font-size: 52px;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 6px;
+    text-shadow: 0 4px 30px rgba(0,180,216,0.3);
+  }
+  .hero-sub {
+    font-family: 'Paperlogy', 'Pretendard', sans-serif;
+    font-weight: 500;
+    font-size: 22px;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 24px;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .hero-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: rgba(255,255,255,0.45);
+  }
+  .hero-meta-item strong {
+    color: rgba(255,255,255,0.7);
+    font-weight: 600;
+  }
+
+  /* CONTENT */
+  .content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* BOOK INTRO */
+  .book-intro {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 36px;
+    margin-bottom: 40px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+  }
+  .book-intro h2 {
+    font-family: 'Paperlogy', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 12px;
+    color: var(--slate);
+  }
+  .book-intro p {
+    font-size: 15px;
+    color: var(--text2);
+    line-height: 1.9;
+  }
+  .tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+  .tag {
+    background: rgba(0,180,216,0.08);
+    color: var(--primary);
+    padding: 4px 14px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  /* DISCUSSION */
+  .discussion-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 36px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+    border-left: 4px solid var(--primary);
+  }
+  .discussion-card:nth-child(even) {
+    border-left-color: var(--purple);
+  }
+  .discussion-card:nth-child(3n) {
+    border-left-color: var(--green);
+  }
+  .q-num {
+    display: inline-block;
+    background: var(--dark);
+    color: var(--primary);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 32px;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .q-title {
+    font-family: 'Paperlogy', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    color: var(--slate);
+  }
+  .discussion-card ul {
+    list-style: none;
+    padding: 0;
+  }
+  .discussion-card li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 14px;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text);
+  }
+  .discussion-card li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--primary);
+  }
+
+  /* INSIGHT */
+  .insight {
+    background: linear-gradient(135deg, rgba(0,180,216,0.06) 0%, rgba(131,56,236,0.06) 100%);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-top: 20px;
+    border: 1px solid rgba(0,180,216,0.1);
+  }
+  .insight-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .insight p {
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.8;
+  }
+
+  /* FOOTER */
+  .footer {
+    background: var(--dark);
+    padding: 48px 24px;
+    text-align: center;
+  }
+  .footer-logo {
+    font-family: 'Paperlogy', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    color: rgba(255,255,255,0.25);
+    margin-bottom: 6px;
+  }
+  .footer-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.12);
+  }
+  .back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: var(--primary);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .back-link:hover { text-decoration: underline; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .hero-inner { flex-direction: column; text-align: center; padding: 40px 20px; }
+    .hero-cover { width: 160px; height: 240px; }
+    .hero-title { font-size: 36px; }
+    .hero-meta { justify-content: center; }
+    .content { padding: 32px 16px 60px; }
+    .discussion-card, .book-intro { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-cover">
+      <img src="../images/18_레디플레이어원.jpg" alt="레디 플레이어 원 표지">
+    </div>
+    <div class="hero-text">
+      <div class="hero-badge">BOOK OF CHA CHA CHA</div>
+      <h1 class="hero-title">레디 플레이어 원</h1>
+      <div class="hero-sub">어니스트 클라인</div>
+      <div class="hero-meta">
+        <div class="hero-meta-item"><strong>#18</strong> 회차</div>
+        <div class="hero-meta-item"><strong>2024.12.14</strong> 일요일</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="content">
+
+  <a href="../index.html" class="back-link">&larr; 아카이브로 돌아가기</a>
+
+  <!-- BOOK INTRO -->
+  <div class="book-intro">
+    <h2>책 소개</h2>
+    <p>
+      2044년, 현실은 황폐해지고 사람들은 가상현실 '오아시스'에서 살아간다.
+      오아시스의 창시자 할리데이가 남긴 이스터에그를 찾는 자에게 천문학적 유산이 돌아간다는 유언장이 공개되고,
+      전 세계는 에그 헌팅에 열광한다. 80년대 팝컬처와 게임에 대한 사랑이 가득한 SF 어드벤처.
+    </p>
+    <div class="tags">
+      <span class="tag">SF</span>
+      <span class="tag">가상현실</span>
+      <span class="tag">디스토피아</span>
+      <span class="tag">레트로 게임</span>
+      <span class="tag">이스터에그</span>
+      <span class="tag">80년대 팝컬처</span>
+    </div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="discussion-card">
+    <span class="q-num">1</span>
+    <div class="q-title">자인의 인생 게임은? 10대, 20대, 30대</div>
+    <ul>
+      <li>멤버들의 인생 게임이 다양하게 쏟아짐 - 메이플스토리, 프린세스 메이커, 와우(월드 오브 워크래프트), 카트라이더, 바람의 나라, 디아블로, 알투비트 등</li>
+      <li>소설 속 게임들(갤러그, 팩맨 등)이 너무 옛날 세대라 공감이 어려웠다는 의견. 할리데이가 80년대를 즐긴 사람이라 설정상 맞지만, 세대를 많이 타는 책이라는 공감대</li>
+      <li>"와우 때문에 수능을 조졌다"는 고백부터, 엄마가 디아블로는 잔인하다고 막아서 메이플만 했다는 이야기까지 게임 추억담이 이어짐</li>
+      <li>PC방 세대의 공감 - 오락실보다는 집에서 PC로 게임하던 세대. 스타크래프트, 창세기전, 서풍의 광시곡 등 한국 캐주얼/RPG 게임의 마지막 황금기를 보냈다는 회고</li>
+      <li>블리자드 게임의 시나리오 퀄리티에 대한 감탄 - 게임도 시나리오 작가가 스토리를 쓴다는 점에서 소설과 비슷한 면이 있음</li>
+    </ul>
+    <div class="insight">
+      <div class="insight-label">INSIGHT</div>
+      <p>게임 이야기를 하다 보면 세대가 드러난다. 같은 모임 안에서도 86년생과 90년대생의 게임 경험이 확연히 달랐고, 소설 속 80년대 게임은 더더욱 먼 세계 이야기였다.</p>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="discussion-card">
+    <span class="q-num">2</span>
+    <div class="q-title">오아시스 같은 가상현실과 인터넷 중독이 닮았는데, 현실에 더 충실할 수 있는 방법은?</div>
+    <ul>
+      <li>소설의 엔딩 메시지 자체가 "현실을 살아라"인데, 지금 우리 세대도 SNS에 매몰되어 있는 상황과 비슷하다는 공감</li>
+      <li>교육 업계 경험 공유 - 코로나로 비대면이 폭발했지만, 끝나고 나니 다시 오프라인을 선호. 효과와 집중도에서 오프라인이 여전히 우위</li>
+      <li>트렌드 2025의 '물성 매력' 키워드 - 손에 잡히지 않는 것에 피로해진 사람들이 아날로그를 다시 원한다. 우체국 현금 용돈 배달 서비스가 인기를 끌었던 사례</li>
+      <li>자격증 공부도 인터넷 강의보다 현장 수업이 집중도가 확연히 다르다는 경험담. 온라인은 편하지만 편한 만큼 딴짓을 하게 됨</li>
+      <li>종이책 vs 전자책, 패드 필기 vs 종이 필기 - "우리는 딱 아날로그와 디지털의 가운데에 끼인 세대"</li>
+      <li>AI 발전 속도에 대한 논쟁 - 워워해야 한다 vs 어차피 사용하는 의식 수준을 높이는 게 중요하다</li>
+    </ul>
+    <div class="insight">
+      <div class="insight-label">INSIGHT</div>
+      <p>기술이 아무리 편해져도 사람들은 손에 잡히는 것, 체온이 느껴지는 것을 본능적으로 찾는다. 오아시스 수준의 가상현실이 와도 아날로그에 대한 향수는 쉽게 사라지지 않을 것이라는 것이 대체적 의견.</p>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="discussion-card">
+    <span class="q-num">3</span>
+    <div class="q-title">소설 속 오아시스 같은 가상현실이 현실보다 더 큰 비중을 차지하게 되는 일이 가능할까?</div>
+    <ul>
+      <li>지금의 VR에 촉각, 후각까지 완벽히 구현되면 집에 처박혀서 사는 사람이 엄청 많아질 것이라는 데 대부분 동의</li>
+      <li>기술적으로 10~20년 안에 가능해 보이지만, 체온이 닿는 진짜 접촉까지 구현하려면 훨씬 오래 걸릴 것</li>
+      <li>"현실에서 현타가 오는 건 우리가 오프라인을 경험한 세대이기 때문. 처음부터 가상현실이 당연한 세대는 현타도 안 올 것"이라는 날카로운 지적</li>
+      <li>인구 감소 문제 연결 - 가상현실에서 다 해결되면 아이를 안 낳을 것. 나라에서 인센티브를 만들겠지만...</li>
+      <li>제페토, 메타버스 열풍에 대한 냉정한 평가 - "아직 너무 구려서 와닿지 않는다. 세상 구린 사이월드"</li>
+      <li>"한국인들이 있으면 이스터에그 한 달 만에 다 찾았을 것. 이 작가는 한국인을 몰랐다" - 한국 랭커가 없는 소설 속 세계관에 대한 유쾌한 불만</li>
+    </ul>
+    <div class="insight">
+      <div class="insight-label">INSIGHT</div>
+      <p>"페이커가 있는데 5년이나 못 찾았다고?" - 한국 게이머의 자부심이 빛나는 순간. 소설의 재미와 별개로, 한국이 빠진 게임 세계관은 설득력이 떨어진다는 데 만장일치.</p>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="discussion-card">
+    <span class="q-num">4</span>
+    <div class="q-title">내가 파르지발이라면 상금을 어떻게 사용했을까?</div>
+    <ul>
+      <li>로또보다 몇백 배는 될 금액. 하지만 매 끼 몇백만 원짜리를 먹진 않을 것. 소소하게 하고 싶었던 것들을 하겠다</li>
+      <li>팀원들과 나눌 것이라는 데 대체로 동의 - IOI라는 공동의 적에 맞서 진짜 팀으로 협업했으니까. 소토가 파르지발을 위해 자기 기회를 포기한 장면이 인상적</li>
+      <li>은퇴 후 친구들과 마을 만들어서 사는 로망 이야기 - "돈도 있고 같이 늙어갈 친구도 있고, 그게 진짜 부럽다"</li>
+      <li>아르테미스 캐릭터에 대한 평가 - 소설에서는 쌩까고 혼자 가버리는 모습이 좀 짜증나고, 영화에서의 설정(반란군 소속)이 훨씬 설득력 있었다는 의견</li>
+      <li>영화 vs 소설 비교 - 영화는 처음부터 팀으로 움직여서 상금 분배가 자연스럽지만, 소설은 마지막에서야 팀이 된 느낌</li>
+    </ul>
+  </div>
+
+  <!-- Q5 -->
+  <div class="discussion-card">
+    <span class="q-num">5</span>
+    <div class="q-title">가상현실이 생긴다면 가장 크게 변화될 삶은 어떤 부분들이 있을까?</div>
+    <ul>
+      <li>아이돌 콘서트 - 모두가 제일 좋은 자리에서 확대까지 가능. 현장감도 100%</li>
+      <li>외부 활동이 확실하게 줄어들 것. 여행사, 항공사가 크게 타격받고, 오프라인 관련 산업 전반에 영향</li>
+      <li>부동산 가치의 변화 - 현실에서 큰 집이 덜 필요해짐. 캡슐 하나면 충분. 대신 가상현실 내 부동산 가치가 생길 수 있음</li>
+      <li>파인다이닝을 가상현실에서 체험하고, 현실에서는 생명 유지 수준만 먹으면 된다는 극단적 시나리오</li>
+      <li>명품의 가치 변화 - 안 나가니까 실물 명품은 의미 없어지고, 가상현실 내 레어템이 명품의 역할을 대신할 것</li>
+      <li>명품 브랜드와 기술 회사의 콜라보 가능성 - 특정 기기를 착용하면 명품 아바타로 로그인하는 구조</li>
+      <li>관광지 국가들의 수입 문제 - 가상현실 내 관광지 입장료를 받는 특허 시스템이 생길 수도</li>
+    </ul>
+    <div class="insight">
+      <div class="insight-label">INSIGHT</div>
+      <p>가상현실 발전의 선후관계에 대한 날카로운 질문 - "디스토피아가 돼서 오아시스가 나온 걸까, 오아시스가 나와서 디스토피아가 된 걸까?" 기술 발전이 세상을 구하는 게 아니라 오히려 무너뜨릴 수도 있다는 양면성.</p>
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="discussion-card">
+    <span class="q-num">6</span>
+    <div class="q-title">오아시스가 있다면 구현되었으면 좋겠는 배경, 장소 등이 있나요?</div>
+    <ul>
+      <li>여행지 - "오늘 2시간만 몽골 가서 별 보고 올까" 같은 감성. 피라미드 꼭대기까지 올라가기, 우주 여행</li>
+      <li>영화 속에 배역으로 들어가기 - 소설에서 영화 안으로 들어가 대사를 치며 미션을 수행하는 장면이 가장 재미있었다는 의견. 해리포터 세계관, 어벤져스, 타이타닉("물에 빠지기 전까지만") 등</li>
+      <li>시대 배경 체험 - 경성시대에서 독립운동 해보기, 영국 엘리자베스 시대, 대항해 시대(다만 30일 동안 배 타야 하는 건 좀...)</li>
+      <li>인디아나 존스 스타일의 모험 - 현실에서는 생명을 걸어야 하지만 가상현실에서는 세이브가 있으니까</li>
+    </ul>
+    <div class="insight">
+      <div class="insight-label">INSIGHT</div>
+      <p>결국 가상현실에서 하고 싶은 것들의 본질은 "안전하게 위험한 경험 하기"와 "시공간을 초월한 여행". 기술이 발전해도 인간의 욕망은 탐험과 모험이라는 가장 원초적인 것에 닿아 있다.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo">북오브차차차 #18</div>
+  <div class="footer-sub">2024.12.14 &middot; 레디 플레이어 원 &middot; 어니스트 클라인</div>
+</footer>
+
+</body>
+</html>
