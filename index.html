@@ -347,6 +347,53 @@
     margin-bottom: 32px;
   }
 
+  /* COLLAPSIBLE YEAR SECTIONS */
+  .year-section {
+    margin-bottom: 16px;
+  }
+  .year-section summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 48px 0 32px;
+    user-select: none;
+  }
+  .year-section summary::-webkit-details-marker { display: none; }
+  .year-section:first-of-type summary {
+    margin-top: 0;
+  }
+  .year-toggle {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(244,162,97,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, background 0.3s ease;
+    font-size: 14px;
+    color: var(--gold);
+  }
+  .year-toggle::after {
+    content: '\25BC';
+  }
+  .year-section[open] .year-toggle {
+    transform: rotate(180deg);
+  }
+  .year-section summary:hover .year-toggle {
+    background: rgba(244,162,97,0.2);
+  }
+  .year-section .book-grid {
+    animation: fadeIn 0.3s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .hero-title { font-size: 40px; }
@@ -434,10 +481,12 @@
   </a>
 
   <!-- 2023 -->
-  <div class="year-divider">
+  <details class="year-section" open>
+  <summary>
     <span class="year-label">2023</span>
     <div class="year-line"></div>
-  </div>
+    <span class="year-toggle"></span>
+  </summary>
 
   <div class="book-grid">
 
@@ -559,12 +608,15 @@
     </a>
 
   </div>
+  </details>
 
   <!-- 2024 -->
-  <div class="year-divider">
+  <details class="year-section" open>
+  <summary>
     <span class="year-label">2024</span>
     <div class="year-line"></div>
-  </div>
+    <span class="year-toggle"></span>
+  </summary>
 
   <div class="book-grid">
 
@@ -673,16 +725,15 @@
     </div>
 
   </div>
+  </details>
 
-  <!-- GAP -->
-  <div class="year-divider">
-    <span class="year-label">2025 - 2026</span>
+  <!-- 2025 - 2026 -->
+  <details class="year-section" open>
+  <summary>
+    <span class="year-label">2026</span>
     <div class="year-line"></div>
-  </div>
-
-  <div class="gap-notice">
-    18~32회차는 비공개이거나 기록 준비 중입니다
-  </div>
+    <span class="year-toggle"></span>
+  </summary>
 
   <div class="book-grid">
 
@@ -713,6 +764,7 @@
     </a>
 
   </div>
+  </details>
 
 </main>
 
