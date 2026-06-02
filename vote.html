@@ -250,7 +250,19 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-// ===== API 연동 =====
+// ===== JSONP 방식 API (CORS 우회) =====
+function jsonp(url) {
+  return new Promise((resolve, reject) => {
+    const cb = '_cb_' + Date.now() + Math.random().toString(36).slice(2);
+    window[cb] = function(data) { resolve(data); delete window[cb]; document.getElementById(cb)?.remove(); };
+    const script = document.createElement('script');
+    script.id = cb;
+    script.src = url + '&callback=' + cb + '&_t=' + Date.now();
+    script.onerror = () => { reject(); delete window[cb]; script.remove(); };
+    document.body.appendChild(script);
+  });
+}
+
 async function submitVote() {
   const name = document.getElementById('voterName').value.trim();
   if (!name || !bestPick) return;
@@ -268,9 +280,9 @@ async function submitVote() {
       bookId: bestPick,
       bookTitle: book.title
     });
-    await fetch(API_URL + '?' + params.toString());
+    await jsonp(API_URL + '?' + params.toString());
     showToast(name + '님의 투표가 완료되었습니다!');
-    setTimeout(() => fetchResults(), 1000);
+    setTimeout(() => fetchResults(), 500);
   } catch(e) {
     showToast('오류가 발생했습니다. 다시 시도해주세요.');
   }
@@ -284,8 +296,7 @@ async function fetchResults() {
   const banner = document.getElementById('myVoteBanner');
 
   try {
-    const res = await fetch(API_URL + '?year=' + currentYear);
-    const data = await res.json();
+    const data = await jsonp(API_URL + '?action=read&year=' + currentYear);
 
     if (!data.votes || data.votes.length === 0) {
       body.innerHTML = '<div class="no-results">아직 투표가 없습니다</div>';
@@ -294,13 +305,13 @@ async function fetchResults() {
       return;
     }
 
-    // Count votes per book
     const counts = {};
     const voters = {};
     data.votes.forEach(v => {
-      counts[v.bookId] = (counts[v.bookId] || 0) + 1;
-      if (!voters[v.bookId]) voters[v.bookId] = [];
-      voters[v.bookId].push(v.name);
+      const bid = String(v.bookId);
+      counts[bid] = (counts[bid] || 0) + 1;
+      if (!voters[bid]) voters[bid] = [];
+      voters[bid].push(v.name);
     });
 
     const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
@@ -330,7 +341,6 @@ async function fetchResults() {
       `;
     }).join('');
 
-    // Show my vote banner
     const myName = document.getElementById('voterName').value.trim();
     const myVote = data.votes.find(v => v.name === myName);
     if (myVote) {
