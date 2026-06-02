@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>북오브차차차 - 연간 베스트 & 워스트 투표</title>
+<title>북오브차차차 - BEST BOOK 투표</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/niceplugin/paperlogy-font@1.0.0/css/paperlogy.min.css">
 <style>
-  :root { --dark: #0D0D13; --gold: #F4A261; --warm-bg: #FAF9F6; --text: #222; --text2: #888; --card: #fff; --radius: 16px; --best: #2D8B5E; --worst: #C62828; }
+  :root { --dark: #0D0D13; --gold: #F4A261; --warm-bg: #FAF9F6; --text: #222; --text2: #888; --card: #fff; --radius: 16px; --best: #2D8B5E; }
   * { margin:0; padding:0; box-sizing:border-box; }
   body { font-family:'Pretendard',sans-serif; background:var(--warm-bg); color:var(--text); line-height:1.7; -webkit-font-smoothing:antialiased; }
 
@@ -21,47 +21,33 @@
 
   .main { max-width:720px; margin:0 auto; padding:40px 20px 80px; }
 
-  /* Year selector */
   .year-tabs { display:flex; gap:8px; margin-bottom:32px; flex-wrap:wrap; }
   .year-tab { padding:10px 24px; border-radius:100px; border:1px solid #ddd; background:var(--card); font-size:14px; font-weight:600; cursor:pointer; transition:all 0.2s; color:var(--text2); }
   .year-tab.active { background:var(--dark); color:#fff; border-color:var(--dark); }
   .year-tab:hover:not(.active) { border-color:var(--gold); color:var(--gold); }
 
-  /* Category */
-  .category { margin-bottom:40px; }
+  /* Name input */
+  .name-section { margin-bottom:32px; }
+  .name-label { font-size:13px; font-weight:600; color:var(--text2); margin-bottom:8px; }
+  .name-input { width:100%; max-width:280px; padding:12px 18px; border:2px solid #eee; border-radius:12px; font-size:15px; font-family:'Pretendard',sans-serif; outline:none; transition:border 0.2s; }
+  .name-input:focus { border-color:var(--gold); }
+
+  .category { margin-bottom:32px; }
   .category-title { display:flex; align-items:center; gap:12px; margin-bottom:20px; }
-  .category-badge { font-family:'Paperlogy',sans-serif; font-weight:800; font-size:14px; padding:6px 16px; border-radius:8px; letter-spacing:1px; }
-  .category-badge.best { background:rgba(45,139,94,0.1); color:var(--best); }
-  .category-badge.worst { background:rgba(198,40,40,0.1); color:var(--worst); }
+  .category-badge { font-family:'Paperlogy',sans-serif; font-weight:800; font-size:14px; padding:6px 16px; border-radius:8px; letter-spacing:1px; background:rgba(45,139,94,0.1); color:var(--best); }
   .category-sub { font-size:13px; color:var(--text2); }
 
-  /* Book vote list */
   .vote-list { display:flex; flex-direction:column; gap:8px; }
   .vote-item { display:flex; align-items:center; gap:14px; padding:14px 18px; background:var(--card); border-radius:12px; border:2px solid transparent; cursor:pointer; transition:all 0.2s; box-shadow:0 1px 4px rgba(0,0,0,0.04); }
   .vote-item:hover { border-color:#ddd; transform:translateX(4px); }
-  .vote-item.selected-best { border-color:var(--best); background:rgba(45,139,94,0.04); }
-  .vote-item.selected-worst { border-color:var(--worst); background:rgba(198,40,40,0.04); }
+  .vote-item.selected { border-color:var(--best); background:rgba(45,139,94,0.04); }
   .vote-item img { width:44px; height:62px; object-fit:cover; border-radius:6px; flex-shrink:0; }
   .vote-item-info { flex:1; min-width:0; }
   .vote-item-title { font-family:'Paperlogy',sans-serif; font-weight:700; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .vote-item-author { font-size:12px; color:var(--text2); }
   .vote-check { width:28px; height:28px; border-radius:50%; border:2px solid #ddd; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:14px; transition:all 0.2s; }
-  .selected-best .vote-check { border-color:var(--best); background:var(--best); color:#fff; }
-  .selected-worst .vote-check { border-color:var(--worst); background:var(--worst); color:#fff; }
+  .selected .vote-check { border-color:var(--best); background:var(--best); color:#fff; }
 
-  /* Result */
-  .result-box { background:var(--card); border-radius:var(--radius); padding:32px; margin-top:40px; box-shadow:0 2px 16px rgba(0,0,0,0.06); text-align:center; display:none; }
-  .result-box.show { display:block; }
-  .result-title { font-family:'Paperlogy',sans-serif; font-weight:800; font-size:20px; margin-bottom:8px; }
-  .result-picks { display:flex; gap:24px; justify-content:center; margin:24px 0; flex-wrap:wrap; }
-  .result-pick { text-align:center; }
-  .result-pick img { width:80px; height:113px; object-fit:cover; border-radius:10px; box-shadow:0 4px 16px rgba(0,0,0,0.1); margin-bottom:8px; }
-  .result-pick-label { font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:4px; }
-  .result-pick-label.best { color:var(--best); }
-  .result-pick-label.worst { color:var(--worst); }
-  .result-pick-title { font-family:'Paperlogy',sans-serif; font-weight:700; font-size:14px; }
-
-  /* Buttons */
   .btn-row { display:flex; gap:12px; justify-content:center; margin-top:24px; flex-wrap:wrap; }
   .btn { padding:12px 28px; border-radius:100px; border:none; font-size:14px; font-weight:600; cursor:pointer; transition:all 0.2s; font-family:'Pretendard',sans-serif; }
   .btn-primary { background:var(--dark); color:#fff; }
@@ -69,6 +55,30 @@
   .btn-share { background:rgba(244,162,97,0.12); color:var(--gold); border:1px solid rgba(244,162,97,0.3); }
   .btn-share:hover { background:rgba(244,162,97,0.2); }
   .btn:disabled { opacity:0.4; cursor:not-allowed; }
+
+  /* Results section */
+  .results-section { margin-top:48px; }
+  .results-card { background:var(--card); border-radius:var(--radius); padding:32px; box-shadow:0 2px 16px rgba(0,0,0,0.06); }
+  .results-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; }
+  .results-title { font-family:'Paperlogy',sans-serif; font-weight:800; font-size:20px; }
+  .results-total { font-size:13px; color:var(--text2); }
+  .result-row { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+  .result-row img { width:36px; height:50px; object-fit:cover; border-radius:6px; flex-shrink:0; }
+  .result-row-info { flex:1; min-width:0; }
+  .result-row-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; }
+  .result-row-title { font-weight:600; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .result-row-count { font-family:'Paperlogy',sans-serif; font-weight:700; font-size:14px; color:var(--best); flex-shrink:0; margin-left:8px; }
+  .result-bar-bg { height:8px; background:#f0f0f0; border-radius:4px; overflow:hidden; }
+  .result-bar { height:100%; background:linear-gradient(90deg, var(--best), #4CAF50); border-radius:4px; transition:width 0.6s ease; }
+  .result-voters { font-size:12px; color:var(--text2); margin-top:4px; }
+  .result-crown { font-size:18px; flex-shrink:0; }
+  .no-results { text-align:center; color:var(--text2); font-size:14px; padding:24px; }
+
+  /* My vote indicator */
+  .my-vote-banner { background:rgba(45,139,94,0.06); border:1px solid rgba(45,139,94,0.15); border-radius:12px; padding:16px 20px; margin-bottom:24px; display:flex; align-items:center; gap:12px; }
+  .my-vote-banner img { width:36px; height:50px; object-fit:cover; border-radius:6px; }
+  .my-vote-text { font-size:13px; color:var(--best); }
+  .my-vote-text strong { font-weight:700; }
 
   .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px); background:var(--dark); color:#fff; padding:14px 28px; border-radius:100px; font-size:14px; font-weight:500; transition:transform 0.3s ease; z-index:100; pointer-events:none; }
   .toast.show { transform:translateX(-50%) translateY(0); }
@@ -78,9 +88,8 @@
 
   @media (max-width:480px) {
     .header h1 { font-size:28px; }
-    .result-picks { gap:16px; }
-    .result-pick img { width:64px; height:90px; }
     .vote-item { padding:12px 14px; }
+    .results-card { padding:20px; }
   }
 </style>
 </head>
@@ -98,37 +107,50 @@
 
   <div class="year-tabs" id="yearTabs"></div>
 
-  <div class="category">
-    <div class="category-title">
-      <span class="category-badge best">BEST</span>
-      <span class="category-sub">올해 가장 좋았던 책 1권</span>
+  <div id="myVoteBanner" class="my-vote-banner" style="display:none;"></div>
+
+  <div id="voteSection">
+    <div class="name-section">
+      <div class="name-label">이름</div>
+      <input type="text" class="name-input" id="voterName" placeholder="이름을 입력하세요">
     </div>
-    <div class="vote-list" id="bestList"></div>
-  </div>
 
+    <div class="category">
+      <div class="category-title">
+        <span class="category-badge">BEST</span>
+        <span class="category-sub">가장 좋았던 책 1권을 골라주세요</span>
+      </div>
+      <div class="vote-list" id="bestList"></div>
+    </div>
 
-  <div class="btn-row">
-    <button class="btn btn-primary" id="submitBtn" disabled onclick="submitVote()">투표 완료</button>
-  </div>
-
-  <div class="result-box" id="resultBox">
-    <div class="result-title">나의 투표 결과</div>
-    <div class="result-picks" id="resultPicks"></div>
     <div class="btn-row">
-      <button class="btn btn-share" onclick="shareResult()">카톡에 공유하기</button>
-      <button class="btn btn-primary" onclick="resetVote()">다시 투표하기</button>
+      <button class="btn btn-primary" id="submitBtn" disabled onclick="submitVote()">투표하기</button>
+    </div>
+  </div>
+
+  <div class="results-section">
+    <div class="results-card">
+      <div class="results-header">
+        <div class="results-title">투표 현황</div>
+        <div class="results-total" id="totalVotes"></div>
+      </div>
+      <div id="resultsBody"><div class="no-results">아직 투표가 없습니다</div></div>
     </div>
   </div>
 
 </div>
 
-<div class="toast" id="toast">클립보드에 복사되었습니다!</div>
+<div class="toast" id="toast"></div>
 
 <footer class="footer">
   <div class="footer-text">북오브차차차 &middot; Since 2023</div>
 </footer>
 
 <script>
+// ===== Google Apps Script URL (아래 URL을 배포된 Apps Script URL로 교체) =====
+const API_URL = 'https://script.google.com/macros/s/AKfycby51EsnHZRMuETKxnLRvi7SDr0ydWpTXLugFuGjn-p0dpQCr52Neq9NmUbfliCw0VMzVA/exec';
+// ============================================================================
+
 const books = {
   2023: [
     {id:1,title:"하얼빈",author:"김훈",img:"images/01_하얼빈.jpg"},
@@ -187,23 +209,22 @@ function init() {
     tabs.appendChild(btn);
   });
   renderBooks();
-  loadSaved();
+  fetchResults();
 }
 
 function switchYear(y) {
   currentYear = y;
   bestPick = null;
   document.querySelectorAll('.year-tab').forEach(t => t.classList.toggle('active', parseInt(t.textContent) === y));
-  document.getElementById('resultBox').classList.remove('show');
   renderBooks();
-  loadSaved();
   updateBtn();
+  fetchResults();
 }
 
 function renderBooks() {
   const list = books[currentYear] || [];
   document.getElementById('bestList').innerHTML = list.map(b => `
-    <div class="vote-item${bestPick===b.id?' selected-best':''}" onclick="pickBest(${b.id})">
+    <div class="vote-item${bestPick===b.id?' selected':''}" onclick="pickBest(${b.id})">
       <img src="${b.img}" alt="">
       <div class="vote-item-info">
         <div class="vote-item-title">${b.title}</div>
@@ -215,51 +236,116 @@ function renderBooks() {
 }
 
 function pickBest(id) { bestPick = bestPick===id?null:id; renderBooks(); updateBtn(); }
-function updateBtn() { document.getElementById('submitBtn').disabled = !bestPick; }
+function updateBtn() {
+  const name = document.getElementById('voterName').value.trim();
+  document.getElementById('submitBtn').disabled = !(bestPick && name);
+}
 
 function getBook(id) { for(const y in books) for(const b of books[y]) if(b.id===id) return b; return null; }
 
-function submitVote() {
-  localStorage.setItem('vote_'+currentYear, JSON.stringify({best:bestPick}));
-  showResult();
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-function showResult() {
-  const b = getBook(bestPick);
-  document.getElementById('resultPicks').innerHTML = `
-    <div class="result-pick">
-      <div class="result-pick-label best">BEST</div>
-      <img src="${b.img}" alt="">
-      <div class="result-pick-title">${b.title}</div>
-    </div>
-  `;
-  document.getElementById('resultBox').classList.add('show');
-  document.getElementById('resultBox').scrollIntoView({behavior:'smooth',block:'center'});
+// ===== API 연동 =====
+async function submitVote() {
+  const name = document.getElementById('voterName').value.trim();
+  if (!name || !bestPick) return;
+
+  const book = getBook(bestPick);
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = '제출 중...';
+
+  try {
+    await fetch(API_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ year: currentYear, name: name, bookId: bestPick, bookTitle: book.title })
+    });
+    showToast(name + '님의 투표가 완료되었습니다!');
+    setTimeout(() => fetchResults(), 1500);
+  } catch(e) {
+    showToast('투표가 제출되었습니다!');
+    setTimeout(() => fetchResults(), 1500);
+  }
+
+  btn.textContent = '투표하기';
+  btn.disabled = false;
 }
 
-function shareResult() {
-  const b = getBook(bestPick);
-  const text = `[북오브차차차 ${currentYear} BEST BOOK]\nBEST: ${b.title} (${b.author})\n\n투표하러 가기 👉 https://yoonz19.github.io/book-of-chachacha/vote.html`;
-  navigator.clipboard.writeText(text).then(() => {
-    const toast = document.getElementById('toast');
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2000);
-  });
+async function fetchResults() {
+  const body = document.getElementById('resultsBody');
+  const banner = document.getElementById('myVoteBanner');
+
+  try {
+    const res = await fetch(API_URL + '?year=' + currentYear);
+    const data = await res.json();
+
+    if (!data.votes || data.votes.length === 0) {
+      body.innerHTML = '<div class="no-results">아직 투표가 없습니다</div>';
+      banner.style.display = 'none';
+      document.getElementById('totalVotes').textContent = '';
+      return;
+    }
+
+    // Count votes per book
+    const counts = {};
+    const voters = {};
+    data.votes.forEach(v => {
+      counts[v.bookId] = (counts[v.bookId] || 0) + 1;
+      if (!voters[v.bookId]) voters[v.bookId] = [];
+      voters[v.bookId].push(v.name);
+    });
+
+    const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+    const maxCount = sorted[0][1];
+    const totalCount = data.votes.length;
+
+    document.getElementById('totalVotes').textContent = totalCount + '명 참여';
+
+    body.innerHTML = sorted.map(([bookId, count], i) => {
+      const book = getBook(parseInt(bookId));
+      if (!book) return '';
+      const pct = (count / maxCount) * 100;
+      const names = voters[bookId].join(', ');
+      return `
+        <div class="result-row">
+          ${i === 0 ? '<span class="result-crown">&#128081;</span>' : ''}
+          <img src="${book.img}" alt="">
+          <div class="result-row-info">
+            <div class="result-row-top">
+              <span class="result-row-title">${book.title}</span>
+              <span class="result-row-count">${count}표</span>
+            </div>
+            <div class="result-bar-bg"><div class="result-bar" style="width:${pct}%"></div></div>
+            <div class="result-voters">${names}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Show my vote banner
+    const myName = document.getElementById('voterName').value.trim();
+    const myVote = data.votes.find(v => v.name === myName);
+    if (myVote) {
+      const myBook = getBook(myVote.bookId);
+      banner.innerHTML = `<img src="${myBook.img}" alt=""><div class="vote-text"><strong>${myVote.name}</strong>님은 <strong>${myBook.title}</strong>에 투표했습니다</div>`;
+      banner.style.display = 'flex';
+    } else {
+      banner.style.display = 'none';
+    }
+
+  } catch(e) {
+    body.innerHTML = '<div class="no-results">결과를 불러오는 중...</div>';
+  }
 }
 
-function resetVote() {
-  localStorage.removeItem('vote_'+currentYear);
-  bestPick = null;
-  document.getElementById('resultBox').classList.remove('show');
-  renderBooks(); updateBtn();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-function loadSaved() {
-  const saved = localStorage.getItem('vote_'+currentYear);
-  if(saved) { const v = JSON.parse(saved); bestPick=v.best; renderBooks(); updateBtn(); showResult(); }
-}
-
+document.getElementById('voterName').addEventListener('input', updateBtn);
 init();
 </script>
 </body>
