@@ -261,17 +261,18 @@ async function submitVote() {
   btn.textContent = '제출 중...';
 
   try {
-    await fetch(API_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ year: currentYear, name: name, bookId: bestPick, bookTitle: book.title })
+    const params = new URLSearchParams({
+      action: 'write',
+      year: currentYear,
+      name: name,
+      bookId: bestPick,
+      bookTitle: book.title
     });
+    await fetch(API_URL + '?' + params.toString());
     showToast(name + '님의 투표가 완료되었습니다!');
-    setTimeout(() => fetchResults(), 1500);
+    setTimeout(() => fetchResults(), 1000);
   } catch(e) {
-    showToast('투표가 제출되었습니다!');
-    setTimeout(() => fetchResults(), 1500);
+    showToast('오류가 발생했습니다. 다시 시도해주세요.');
   }
 
   btn.textContent = '투표하기';
