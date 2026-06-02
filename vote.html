@@ -198,6 +198,7 @@ const books = {
 
 let currentYear = 2025;
 let bestPick = null;
+let cachedVotes = null;
 
 function init() {
   const tabs = document.getElementById('yearTabs');
@@ -209,7 +210,7 @@ function init() {
     tabs.appendChild(btn);
   });
   renderBooks();
-  fetchResults();
+  fetchAllVotes();
 }
 
 function switchYear(y) {
@@ -218,7 +219,7 @@ function switchYear(y) {
   document.querySelectorAll('.year-tab').forEach(t => t.classList.toggle('active', parseInt(t.textContent) === y));
   renderBooks();
   updateBtn();
-  fetchResults();
+  if (cachedVotes) { renderResults(cachedVotes); } else { fetchAllVotes(); }
 }
 
 function renderBooks() {
@@ -292,7 +293,8 @@ async function submitVote() {
     });
     await jsonpRetry(API_URL + '?' + params.toString());
     showToast(name + '님의 투표가 완료되었습니다!');
-    setTimeout(() => fetchResults(), 500);
+    cachedVotes = null;
+    setTimeout(() => fetchAllVotes(), 500);
   } catch(e) {
     showToast('오류가 발생했습니다. 다시 시도해주세요.');
   }
@@ -301,70 +303,74 @@ async function submitVote() {
   btn.disabled = false;
 }
 
-async function fetchResults() {
+async function fetchAllVotes() {
   const body = document.getElementById('resultsBody');
-  const banner = document.getElementById('myVoteBanner');
-
   body.innerHTML = '<div class="no-results">불러오는 중...</div>';
   try {
-    const data = await jsonpRetry(API_URL + '?action=read&year=' + currentYear);
-
-    if (!data.votes || data.votes.length === 0) {
-      body.innerHTML = '<div class="no-results">아직 투표가 없습니다</div>';
-      banner.style.display = 'none';
-      document.getElementById('totalVotes').textContent = '';
-      return;
-    }
-
-    const counts = {};
-    const voters = {};
-    data.votes.forEach(v => {
-      const bid = String(v.bookId);
-      counts[bid] = (counts[bid] || 0) + 1;
-      if (!voters[bid]) voters[bid] = [];
-      voters[bid].push(v.name);
-    });
-
-    const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-    const maxCount = sorted[0][1];
-    const totalCount = data.votes.length;
-
-    document.getElementById('totalVotes').textContent = totalCount + '명 참여';
-
-    body.innerHTML = sorted.map(([bookId, count], i) => {
-      const book = getBook(parseInt(bookId));
-      if (!book) return '';
-      const pct = (count / maxCount) * 100;
-      const names = voters[bookId].join(', ');
-      return `
-        <div class="result-row">
-          ${i === 0 ? '<span class="result-crown">&#128081;</span>' : ''}
-          <img src="${book.img}" alt="">
-          <div class="result-row-info">
-            <div class="result-row-top">
-              <span class="result-row-title">${book.title}</span>
-              <span class="result-row-count">${count}표</span>
-            </div>
-            <div class="result-bar-bg"><div class="result-bar" style="width:${pct}%"></div></div>
-            <div class="result-voters">${names}</div>
-          </div>
-        </div>
-      `;
-    }).join('');
-
-    const myName = document.getElementById('voterName').value.trim();
-    const myVote = data.votes.find(v => v.name === myName);
-    if (myVote) {
-      const myBook = getBook(myVote.bookId);
-      banner.innerHTML = `<img src="${myBook.img}" alt=""><div class="vote-text"><strong>${myVote.name}</strong>님은 <strong>${myBook.title}</strong>에 투표했습니다</div>`;
-      banner.style.display = 'flex';
-    } else {
-      banner.style.display = 'none';
-    }
-
+    const data = await jsonpRetry(API_URL + '?action=read');
+    cachedVotes = data.votes || [];
+    renderResults(cachedVotes);
   } catch(e) {
-    body.innerHTML = '<div class="no-results">불러오기 실패 - 잠시 후 다시 시도합니다</div>';
-    setTimeout(() => fetchResults(), 3000);
+    body.innerHTML = '<div class="no-results">불러오기 실패 - 재시도 중...</div>';
+    setTimeout(() => fetchAllVotes(), 3000);
+  }
+}
+
+function renderResults(allVotes) {
+  const body = document.getElementById('resultsBody');
+  const banner = document.getElementById('myVoteBanner');
+  const yearVotes = allVotes.filter(v => v.year === currentYear);
+
+  if (yearVotes.length === 0) {
+    body.innerHTML = '<div class="no-results">아직 투표가 없습니다</div>';
+    banner.style.display = 'none';
+    document.getElementById('totalVotes').textContent = '';
+    return;
+  }
+
+  const counts = {};
+  const voters = {};
+  yearVotes.forEach(v => {
+    const bid = String(v.bookId);
+    counts[bid] = (counts[bid] || 0) + 1;
+    if (!voters[bid]) voters[bid] = [];
+    voters[bid].push(v.name);
+  });
+
+  const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  const maxCount = sorted[0][1];
+
+  document.getElementById('totalVotes').textContent = yearVotes.length + '명 참여';
+
+  body.innerHTML = sorted.map(([bookId, count], i) => {
+    const book = getBook(parseInt(bookId));
+    if (!book) return '';
+    const pct = (count / maxCount) * 100;
+    const names = voters[bookId].join(', ');
+    return `
+      <div class="result-row">
+        ${i === 0 ? '<span class="result-crown">&#128081;</span>' : ''}
+        <img src="${book.img}" alt="">
+        <div class="result-row-info">
+          <div class="result-row-top">
+            <span class="result-row-title">${book.title}</span>
+            <span class="result-row-count">${count}표</span>
+          </div>
+          <div class="result-bar-bg"><div class="result-bar" style="width:${pct}%"></div></div>
+          <div class="result-voters">${names}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  const myName = document.getElementById('voterName').value.trim();
+  const myVote = yearVotes.find(v => v.name === myName);
+  if (myVote) {
+    const myBook = getBook(myVote.bookId);
+    banner.innerHTML = `<img src="${myBook.img}" alt=""><div class="vote-text"><strong>${myVote.name}</strong>님은 <strong>${myBook.title}</strong>에 투표했습니다</div>`;
+    banner.style.display = 'flex';
+  } else {
+    banner.style.display = 'none';
   }
 }
 
