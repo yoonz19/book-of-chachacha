@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>북오브차차차 #37 - 아버지의 해방일지</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/niceplugin/paperlogy-font@1.0.0/css/paperlogy.min.css">
+<style>
+  :root {
+    --fire: #C62828;
+    --dark: #0D0D13;
+    --gold: #FF8F00;
+    --warm-bg: #FAF9F6;
+    --slate: #2A2D3E;
+    --green: #2E7D32;
+    --purple: #6A1B9A;
+    --amber: #F57F17;
+    --text: #222;
+    --text2: #666;
+    --card: #FFFFFF;
+    --radius: 20px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Pretendard', 'Noto Sans KR', -apple-system, sans-serif;
+    background: var(--warm-bg);
+    color: var(--text);
+    line-height: 1.85;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--dark);
+    min-height: 540px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 80%, rgba(198,40,40,0.3) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 20%, rgba(255,143,0,0.18) 0%, transparent 50%);
+  }
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    max-width: 960px;
+    padding: 60px 32px;
+    width: 100%;
+  }
+  .hero-cover {
+    flex-shrink: 0;
+    width: 220px;
+    height: 330px;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 80px rgba(198,40,40,0.25);
+    position: relative;
+    background: #000;
+  }
+  .hero-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .hero-text { flex: 1; }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,143,0,0.15);
+    border: 1px solid rgba(255,143,0,0.3);
+    border-radius: 50px;
+    padding: 6px 20px;
+    color: var(--gold);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .hero-title {
+    font-family: 'Paperlogy', 'Pretendard', sans-serif;
+    font-weight: 900;
+    font-size: 56px;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 6px;
+    text-shadow: 0 4px 30px rgba(198,40,40,0.4);
+  }
+  .hero-sub {
+    font-family: 'Paperlogy', 'Pretendard', sans-serif;
+    font-weight: 300;
+    font-size: 22px;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 28px;
+    letter-spacing: 1px;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .hero-chip {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 10px 18px;
+    color: rgba(255,255,255,0.5);
+    font-size: 13px;
+    font-weight: 400;
+    backdrop-filter: blur(8px);
+  }
+  .hero-chip strong { color: var(--gold); font-weight: 600; }
+
+  /* CONTAINER */
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+
+  /* BOOK INTRO */
+  .intro {
+    margin-top: -40px;
+    position: relative;
+    z-index: 2;
+  }
+  .intro-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+    padding: 36px 40px;
+  }
+  .intro-card p {
+    font-size: 15px;
+    color: var(--text2);
+    line-height: 1.9;
+  }
+  .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+  .tag {
+    padding: 5px 16px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 500;
+    background: #F2F2F0;
+    color: var(--text2);
+  }
+  .tag.hot { background: var(--fire); color: #fff; }
+
+  /* SECTION */
+  .section { margin-top: 64px; }
+  .sec-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .sec-num {
+    font-family: 'Paperlogy', 'Pretendard', sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    color: var(--fire);
+    width: 52px;
+    height: 52px;
+    background: #FDEAEA;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .sec-title {
+    font-family: 'Paperlogy', 'Pretendard', sans-serif; font-weight: 700;
+    font-size: 24px;
+    color: var(--dark);
+    letter-spacing: -0.5px;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 32px 36px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+    border-left: 4px solid var(--gold);
+  }
+  .card.fire { border-left-color: var(--fire); }
+  .card.green { border-left-color: var(--green); }
+  .card.purple { border-left-color: var(--purple); }
+  .card.amber { border-left-color: var(--amber); }
+
+  .q {
+    font-family: 'Paperlogy', 'Pretendard', sans-serif; font-weight: 700;
+    font-size: 19px;
+    color: var(--dark);
+    margin-bottom: 20px;
+    line-height: 1.5;
+    letter-spacing: -0.3px;
+  }
+
+  /* BULLET LIST STYLE */
+  .talk { list-style: none; padding: 0; }
+  .talk li {
+    position: relative;
+    padding: 14px 20px 14px 32px;
+    margin-bottom: 10px;
+    background: #F8F8FA;
+    border-radius: 14px;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text);
+  }
+  .talk li::before {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: 22px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+  .talk li:last-child { margin-bottom: 0; }
+
+  .insight {
+    background: var(--dark);
+    color: #fff;
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-top: 20px;
+    font-size: 14px;
+    line-height: 1.85;
+  }
+  .insight strong { color: var(--gold); }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 80px;
+    background: var(--dark);
+    padding: 48px 24px;
+    text-align: center;
+    color: rgba(255,255,255,0.4);
+    font-size: 13px;
+    line-height: 2;
+  }
+  .footer-logo {
+    font-family: 'Paperlogy', 'Pretendard', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--gold);
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+  }
+  .quote {
+    margin-top: 12px;
+    font-style: italic;
+    color: rgba(255,255,255,0.25);
+    font-size: 14px;
+  }
+
+  @media (max-width: 700px) {
+    .hero-inner { flex-direction: column; text-align: center; padding: 40px 20px; }
+    .hero-cover { width: 180px; height: 270px; }
+    .hero-title { font-size: 36px; }
+    .hero-meta { justify-content: center; }
+    .card { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-cover">
+      <img src="../images/37_아버지의해방일지.jpg" alt="아버지의 해방일지 표지">
+    </div>
+    <div class="hero-text">
+      <div class="hero-badge">Book of Cha Cha Cha</div>
+      <h1 class="hero-title">아버지의 해방일지</h1>
+      <p class="hero-sub">Father's Liberation Diary &mdash; 정지아</p>
+      <div class="hero-meta">
+        <span class="hero-chip"><strong>2026.10.09</strong> (금)</span>
+        <span class="hero-chip">발제자 <strong>장아영</strong></span>
+        <span class="hero-chip">37번째 모임</span>
+        <span class="hero-chip">참석 <strong>아영 · 종훈 · 윤지 · 진호</strong></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOK INTRO -->
+<div class="wrap">
+<div class="intro">
+  <div class="intro-card">
+    <p>
+      "아버지가 죽었다. 전봇대에 머리를 박고." 전직 빨치산 고상욱의 갑작스러운 죽음으로 시작해,
+      사흘간의 장례식장에 모여드는 문상객들을 통해 딸이 아버지의 삶을 하나씩 다시 읽어 가는 소설.
+      실제 빨치산 부모에게서 태어난 정지아 작가의 자전적 이야기다. 선물받은 지 1년이 넘도록
+      베스트셀러 자리를 지키는 걸 보고 "뭔가 있겠다" 싶어 가져왔다는 발제자의 선정 소감처럼,
+      제목과 표지에서 기대한 잔잔한 힐링물과는 전혀 달랐던 밀도에 "뭔가 있었다"로 시작한 회차.
+      드라마 &lt;나의 해방일지&gt;에서 따온 듯한 제목의 작명 비화 추리부터, "이 인물들은
+      상상으로 지어낼 수 없다"는 디테일 감탄까지 &mdash; 본격 토론 전부터 이야기가 끊이지 않았다.
+    </p>
+    <div class="tags">
+      <span class="tag hot">한국소설</span>
+      <span class="tag">빨치산</span>
+      <span class="tag">가족</span>
+      <span class="tag">연좌제</span>
+      <span class="tag">애도</span>
+      <span class="tag">용서</span>
+    </div>
+  </div>
+</div>
+
+<!-- Q1 -->
+<div class="section">
+  <div class="sec-head">
+    <div class="sec-num">01</div>
+    <h2 class="sec-title">이 소설은 좌편향적인가</h2>
+  </div>
+  <div class="card fire">
+    <div class="q">작가는 아버지의 사회주의적 성향을 인간적인 모습들로 표현한다. 이 소설은 좌편향적인 소설이라고 생각하는가?</div>
+    <ul class="talk">
+      <li><strong>발제의 배경</strong> &mdash; 최근 역사 소재 영화를 둘러싼 이념 논쟁이 뜨거운 참이라 엮어서 가져온 질문. 영화든 소설이든 작품이 나올 때마다 양쪽이 번갈아 들고일어나는 풍경과, 유튜브·커뮤니티가 키우는 흑백논리와 "중간지대의 실종"에 대한 성토가 먼저 한참 이어졌다.</li>
+      <li><strong>결론은 "아니다"</strong> &mdash; 이념을 주장하는 게 아니라 아버지라는 인간을 덤덤하게 기술한 소설이라는 데 모두 동의. 아버지에게는 그것이 자기 인생이었고, 작가는 그걸 판정하지 않고 보여줄 뿐.</li>
+      <li><strong>오히려 계속 비꼰다</strong> &mdash; '위대한 혁명가'인데 여전히 사회주의자 놀음을 하는 아버지를 딸은 소설 내내 시니컬하게 비웃는다. 빨치산이 옳았다고 말하는 소설이 아니라는 근거.</li>
+      <li><strong>좌파에 대한 변명이 아니라 아빠에 대한 변명</strong> &mdash; 비판과 냉소를 섞었지만 결국은 애정으로 수렴한다. "우리 아버지, 사회적으로 지탄받았을지 몰라도 이런 좋은 면을 가진 인간이었어"를 적당한 냉소로 포장해 주는 글 &mdash; 그래서 이념의 변명이 아니라 아버지의 변명이라는 정리.</li>
+      <li><strong>그런데 왜 굳이 빨치산인가</strong> &mdash; 빨치산을 빼고 그냥 난봉꾼 아버지로 바꿔도 플롯은 똑같이 굴러가지 않느냐는 발제자 측 재질문.</li>
+      <li><strong>연좌제가 만드는 관계성</strong> &mdash; 난봉꾼이었다면 '내놓은 자식' 하고 말았을 것. 사상 때문에 작은아버지의 증오도, 사촌의 멀어짐도, 딸의 연애까지도 얽힌다. 사상과 신념이 붙어야 증오도 연대도 폭발한다 &mdash; 이걸 덜어내면 그냥 사람 사는 이야기 중 하나가 된다는 반론.</li>
+      <li><strong>파르티잔 = 자유인</strong> &mdash; 수십 년 수절한 미망인에게 재혼을 권하고, 체면 따위 아랑곳없이 어린 친구와 담배를 나눠 피우는 아버지. 그 시절에 통용될 수 없던 것들을 자유롭게 행하는 '보수적인 옛것의 반대급부'로서 파르티잔이라는 말을 빌려 쓴 게 아니겠냐는 해석.</li>
+    </ul>
+    <div class="insight">
+      <strong>INSIGHT</strong> &nbsp; 인물들의 리얼리티도 이 결론을 거들었다. 작은아버지, 학수, 세 살 위인데 아저씨 같던 친구까지 &mdash; "이 디테일은 상상으로 지어낼 수 없다"는 감탄과 함께, 여러 인물의 삶을 돌아가며 비추는 군상극 드라마로 만들어도 좋겠다는 데까지 이야기가 뻗었다.
+    </div>
+  </div>
+</div>
+
+<!-- Q2 -->
+<div class="section">
+  <div class="sec-head">
+    <div class="sec-num">02</div>
+    <h2 class="sec-title">우리가 통과해 온 역사적 장면들</h2>
+  </div>
+  <div class="card">
+    <div class="q">주인공은 아버지를 회고하며 현대사의 장면들을 지난다. 우리가 자라오면서 겪은 '역사적인 장면'은 무엇이었나?</div>
+    <ul class="talk">
+      <li><strong>지금, AI의 발전</strong> &mdash; 몇백 년 뒤 교과서에 실릴 장면은 바로 지금이라는 답. 전기의 발견이나 산업혁명처럼 기록될 속도의 변화 한가운데를 살고 있다는 실감. "AI 없던 시절에 어떻게 일했는지 기억도 안 난다"는 고백과, 벌써 구독 등급으로 격차가 생기기 시작했다는 걱정까지.</li>
+      <li><strong>삐삐에서 AI까지</strong> &mdash; 중학생 때 삐삐를 쓰던 사람과 초등학생 때 이미 휴대폰을 보던 사람이 한 테이블에 앉아 있다. "아날로그와 디지털을 한 번에 겪은 세대로서 역사의 순간을 살고 있다"는 자평.</li>
+      <li><strong>1987년 겨울의 거실</strong> &mdash; 리모컨이 없어 아이들이 '사람 리모컨'으로 채널을 돌리던 시절, 대선 방송 앞에서 서로 다른 지역 출신의 두 가족이 번갈아 TV를 끄고 켜던 풍경. 평소엔 삼촌이라 부르며 우애 좋던 사이가 선거 하나로 드러낸 시대의 온도.</li>
+      <li><strong>2000년 6월, DMZ 안에서</strong> &mdash; 군 복무 중 남북정상회담을 맞아, 24시간 비난 일색이던 대남·대북 방송의 어조가 하루아침에 달라지던 순간을 철책 안에서 들었다는 증언. 불과 1~2년 전엔 교전으로 휴가가 묶이던 바다였다.</li>
+      <li><strong>2002 월드컵</strong> &mdash; "네가 역사적 사건 안에 있었던 적이 있냐고 물으면 그건 월드컵." 뭔지도 모르고 빨간 티를 입고 소리 지르던 초등학생부터, 온 국민이 같은 장면을 체감한 드문 기억.</li>
+      <li><strong>두 번의 탄핵, 그리고 계엄</strong> &mdash; "개헌도 계몽도 아니고, 계엄을 실시간으로 경험해 봤다"는 자각. 교과서에 실릴 일들을 뉴스로 지켜본 세대라는 데 모두 공감.</li>
+      <li><strong>모래 같은 응집력</strong> &mdash; 평소엔 흩어져 있다가 공공의 적이나 위기가 생기면 순식간에 뭉치는 한국인론. 금 모으기부터 코로나까지 긍정적으로 발현된 순간도, 물고 뜯는 쪽으로 쏠리는 요즘도 &mdash; "틀을 만들어 주면 아주 착실하게 들어간다."</li>
+    </ul>
+    <div class="insight">
+      <strong>POINT</strong> &nbsp; 소설 속 아버지 세대의 역사만 역사가 아니었다. 올림픽과 월드컵, 정상회담과 탄핵과 AI까지 &mdash; 각자의 자리에서 우리도 이미 꽤 많은 '교과서의 장면'을 통과해 왔다는 발견으로 가장 수다스러웠던 발제.
+    </div>
+  </div>
+</div>
+
+<!-- Q3 -->
+<div class="section">
+  <div class="sec-head">
+    <div class="sec-num">03</div>
+    <h2 class="sec-title">내가 고상욱의 자식이라면</h2>
+  </div>
+  <div class="card green">
+    <div class="q">내가 고상욱의 자식이라면 아버지를 어떤 사람으로 평가했을까?</div>
+    <ul class="talk">
+      <li><strong>용서할 수 없는 순간들</strong> &mdash; 이념을 다 떠나 그냥 사람으로 봐도, 자식을 불러다 보증을 세우고 도둑질한 사람까지 집에 재워 주는("우리 장발장이지") 아버지를 주인공처럼 덤덤하게 수용하지는 못했을 거라는 쪽. 죽고 나서 훌륭한 면이 드러난들, 사는 동안의 괴로움이 그걸로 상쇄되는가.</li>
+      <li><strong>증오의 단계가 얕다</strong> &mdash; "이만큼 미워했다가 요만큼 이해해야 납득이 되는데, 요만큼 미워하다 갑자기 이만큼 용서하는 느낌." 아버지를 너무 쉽게 용서하는 것 같아 이입이 덜 됐다는 데 두 사람이 공감.</li>
+      <li><strong>프레임을 수용하는 게 신기했다</strong> &mdash; 내 잘못도 아닌데 씌워진 '빨치산의 딸' 프레임 때문에 손가락질당하고 사랑하는 사람마저 놓아야 했으면서, 그걸 증오하는 대신 받아들이는 시선 자체가 낯설었다는 관찰. "나라면 그 프레임을 벗으려고 발버둥 쳤을 것 같다. 사촌 정도의 증오는 나왔어야 한다."</li>
+      <li><strong>미움 밑에 깔린 존경</strong> &mdash; 그런데 자세히 보면 조롱하는 대목에서도 진짜 증오가 느껴지지 않는다는 반론. 몇 년 만의 연락이 "3만 원만 보내라"였을 때 차라리 2~3천만 원을 요구했으면 덜 아팠겠다며 마음 아파하는 장면 &mdash; "그 3만 원에 아파하는 게 사랑이다."</li>
+      <li><strong>엄마가 대단하다</strong> &mdash; 그 와중에 딸을 박사까지 공부시킨 건 결국 엄마라는 데 만장일치. "그 사회주의자가 그래도 되는 거냐" 한마디면 조용해지는 아버지와, "팔자지 뭐"로 받아치는 어머니의 내공.</li>
+      <li><strong>나는 그대로 인정하는 쪽</strong> &mdash; 부모가 왜 그랬을까를 오래 사유하다 보면 그들의 삶의 선택을 그대로 인정하게 되더라는 경험담. 영향을 받았을지언정 오히려 긍정적으로 받아들였다는 소수 의견.</li>
+      <li><strong>부모는 원래 이해할 수 없는 종족</strong> &mdash; 아버지에게 쌓인 서운함을 풀지 못한 채 보내게 될까 봐 장문의 메시지를 썼다 지웠다 한다는 지인의 고민이 소환됐다. 화해를 시도하는 게 어른이 되는 과정이라는 쪽과, 완벽한 이해란 애초에 불가능하니 그냥 받아들이는 거라는 쪽 &mdash; 소설 속 부녀가 그대로 테이블 위에 재현된 순간.</li>
+    </ul>
+    <div class="insight">
+      <strong>INSIGHT</strong> &nbsp; 아리의 포용력이 리얼한가, 소설적 관용인가로 갈렸던 발제. 다만 "감옥에 수감되기 전까지는 아빠가 아빠다웠고 사이가 좋았다"는 전사(前史)가 그 용서를 가능하게 했을 거라는 데서 접점을 찾았다.
+    </div>
+  </div>
+</div>
+
+<!-- Q4 -->
+<div class="section">
+  <div class="sec-head">
+    <div class="sec-num">04</div>
+    <h2 class="sec-title">아무렇지도 않게 &mdash; 아버지 식의 위로</h2>
+  </div>
+  <div class="card purple">
+    <div class="q">"아무렇지도 않게 대하는, 아버지 식의 위로였다." 내가 살면서 받았던 기억에 남는 위로는? 나는 어떤 방식으로 위로하는 사람인가?</div>
+    <ul class="talk">
+      <li><strong>발제의 출발</strong> &mdash; 손가락을 다쳐 군 면제를 받은 아이를 다들 안쓰러워할 때 "새끼손가락 아닌 게 다행이네" 하고 아무렇지 않게 받아치는 아버지의 장면. 그 무심한 위로가 와닿아 가져온 질문.</li>
+      <li><strong>"위로가 사라졌으면 좋겠다"</strong> &mdash; 힘들 때 연락이 쏟아지는 게 고맙지만 성가시다는 과격파. 나의 위로 방식은 괜찮아질 때까지 내버려두는 것인데, 상대는 그걸 서운해하니 위로와 서운함이 함께 없어졌으면 좋겠다는 선언에 폭소.</li>
+      <li><strong>생일의 미역국</strong> &mdash; 가족이 아파 혼자 지내던 시절, 괜찮다고 생각했는데 혼자 맞는 생일에 이상하게 센치해지던 날 &mdash; 동네 동생들이 미역국을 바리바리 싸들고 찾아왔다. "오늘은 온기가 필요했었나 보다"를 그때 알았다는 이야기.</li>
+      <li><strong>거짓말이 불러온 위로</strong> &mdash; 어린 시절 선생님의 거듭된 물음이 귀찮아 둘러댄 거짓말에 반 아이들의 극진한 보살핌을 받았다는 웃픈 고백부터, 어려운 형편을 말하지 않았는데도 반 전체가 약속한 듯 장학금에 손을 들어 줬다는 기억까지. "뭔가 계속 치워 주는 느낌, 그게 위로였다."</li>
+      <li><strong>장례식장에서는 무슨 말을 해야 하나</strong> &mdash; 황망한 죽음 앞에서 처음으로 할 말을 잃었다는 경험담에, "말보다 부조로 보여주면 된다"는 현실론과 "와 주는 것 자체가 위로"라는 답이 겹쳤다. 첫날 네다섯 시간을 눌러앉아 멍 때릴 틈을 주지 않다가 "너 좀 자라"며 일어서던 친구들이 가장 기억에 남는다는 상주 경험담이 정점.</li>
+      <li><strong>결국 아버지 식으로</strong> &mdash; 각 잡고 하는 위로보다 아무렇지 않게 대해 주는 것, 자리를 지켜 주는 것. 위로를 원하는 사람과 혼자가 필요한 사람의 방식은 극과 극이었지만, 돌고 돌아 모두 소설 속 아버지의 방식에 도착했다.</li>
+    </ul>
+    <div class="insight">
+      <strong>CLOSING</strong> &nbsp; "각 잡은 위로보다, 어떤 방식이든 본인이 위로받았으면 그게 위로"라는 말로 정리된 마지막 발제. 다음 모임은 "오래전부터 하고 싶었다"는 양귀자의 작품으로 이어 가기로 하며 83분의 기록이 종료됐다.
+    </div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-logo">북오브차차차</div>
+    <p>37번째 모임 &middot; 2026.10.09 &middot; 아버지의 해방일지 &middot; 정지아</p>
+    <p class="quote">"긍께 사램이제."</p>
+  </div>
+</footer>
+
+</body>
+</html>
